@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penjana Lembaran Kerja Penyelesaian Masalah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Gaya khusus untuk percetakan */
+        @media print {
+            body {
+                background-color: white;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .worksheet-container {
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+            }
+            .question-box {
+                border-color: #9ca3af !important; /* Tailwind gray-400 */
+                page-break-inside: avoid;
+            }
+        }
+        
+        .print-only {
+            display: none;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800 p-4 md:p-8">
+
+    <!-- PANEL KAWALAN (Tidak akan dicetak) -->
+    <div class="no-print max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-md mb-8 border-t-4 border-indigo-500">
+        <h1 class="text-2xl font-bold text-indigo-700 mb-6 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Penjana Lembaran Kerja Penyelesaian Masalah
+        </h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Tetapan Operasi -->
+            <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100">
+                <h2 class="font-semibold mb-3 text-indigo-800">1. Pilih Operasi:</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="flex items-center gap-2 p-3 rounded-lg border bg-white cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:bg-indigo-600 has-[:checked]:text-white has-[:checked]:border-indigo-700">
+                        <input type="checkbox" id="op-tambah" class="w-4 h-4 accent-white" checked onchange="generateWorksheet()">
+                        <span class="font-medium">Tambah</span>
+                    </label>
+                    <label class="flex items-center gap-2 p-3 rounded-lg border bg-white cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:bg-indigo-600 has-[:checked]:text-white has-[:checked]:border-indigo-700">
+                        <input type="checkbox" id="op-tolak" class="w-4 h-4 accent-white" checked onchange="generateWorksheet()">
+                        <span class="font-medium">Tolak</span>
+                    </label>
+                    <label class="flex items-center gap-2 p-3 rounded-lg border bg-white cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:bg-indigo-600 has-[:checked]:text-white has-[:checked]:border-indigo-700">
+                        <input type="checkbox" id="op-darab" class="w-4 h-4 accent-white" checked onchange="generateWorksheet()">
+                        <span class="font-medium">Darab</span>
+                    </label>
+                    <label class="flex items-center gap-2 p-3 rounded-lg border bg-white cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:bg-indigo-600 has-[:checked]:text-white has-[:checked]:border-indigo-700">
+                        <input type="checkbox" id="op-bahagi" class="w-4 h-4 accent-white" checked onchange="generateWorksheet()">
+                        <span class="font-medium">Bahagi</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tetapan & Tindakan -->
+            <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 flex flex-col justify-center gap-4">
+                <div class="flex items-center gap-3">
+                    <h2 class="font-semibold text-indigo-800 whitespace-nowrap">2. Bilangan Soalan:</h2>
+                    <select id="num-questions" class="border-gray-300 rounded-lg p-2 font-medium bg-white w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500" onchange="generateWorksheet()">
+                        <option value="4">4 Soalan</option>
+                        <option value="6" selected>6 Soalan</option>
+                        <option value="8">8 Soalan</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-2 mt-2">
+                    <button onclick="generateWorksheet()" class="bg-emerald-500 hover:bg-emerald-600 text-white py-2.5 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95 lg:col-span-1 col-span-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+                        Jana Semula
+                    </button>
+                    
+                    <button id="btn-jawapan" onclick="toggleAnswers()" class="bg-sky-500 hover:bg-sky-600 text-white py-2.5 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95">
+                        <svg id="icon-eye" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        <span id="text-jawapan">Papar Jawapan</span>
+                    </button>
+
+                    <button onclick="window.print()" class="bg-gray-800 hover:bg-gray-900 text-white py-2.5 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                        Cetak
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LEMBARAN KERJA (Kawasan yang akan dicetak) -->
+    <div class="worksheet-container max-w-4xl mx-auto bg-white p-8 sm:p-12 shadow-xl rounded-2xl border border-gray-100">
+        
+        <!-- Pengepala Lembaran -->
+        <div class="border-b-4 border-gray-800 pb-5 mb-8">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-center mb-8 uppercase tracking-widest text-gray-900">Lembaran Kerja Matematik</h1>
+            <div class="flex flex-col sm:flex-row justify-between gap-6 sm:gap-2 text-lg">
+                <div class="flex items-end gap-2 w-full sm:w-1/2">
+                    <span class="font-bold whitespace-nowrap">NAMA :</span>
+                    <div class="border-b-2 border-gray-500 flex-grow border-dashed"></div>
+                </div>
+                <div class="flex flex-row justify-between w-full sm:w-1/2 gap-6">
+                    <div class="flex items-end gap-2 w-1/2">
+                        <span class="font-bold whitespace-nowrap">KELAS :</span>
+                        <div class="border-b-2 border-gray-500 flex-grow border-dashed"></div>
+                    </div>
+                    <div class="flex items-end gap-2 w-1/2">
+                        <span class="font-bold whitespace-nowrap">TARIKH :</span>
+                        <div class="border-b-2 border-gray-500 flex-grow border-dashed"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <p class="font-bold text-gray-700 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    Arahan:
+                </p>
+                <p class="text-gray-600 mt-1 ml-7">Baca soalan dengan teliti. Tunjukkan jalan kerja bentuk lazim dan tuliskan jawapan akhir di ruang yang disediakan.</p>
+            </div>
+        </div>
+
+        <!-- Grid Soalan -->
+        <div id="questions-grid" class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+            <!-- Soalan akan dijana di sini oleh JavaScript -->
+        </div>
+        
+        <!-- Pengaki (Untuk cetakan sahaja) -->
+        <div class="print-only mt-12 text-center text-sm text-gray-400 font-medium">
+            Lembaran Kerja Matematik - Penyelesaian Masalah | Dijana secara automatik
+        </div>
+
+    </div>
+
+    <!-- LOGIK JAVASCRIPT -->
+    <script>
+        // Data rawak untuk membina ayat
+        const names = ["Ahmad", "Siti", "Ali", "Aisyah", "Muthu", "Mei Ling", "Raju", "Farid", "Nurul", "Daniel", "Chong", "Kavitha"];
+        const items = ["biji epal", "batang pensel", "biji guli", "buah buku cerita", "keping biskut", "biji gula-gula", "biji oren", "keping pemadam", "buah mainan"];
+        const containers = ["bakul", "kotak", "balang", "beg", "paket", "bekas"];
+
+        // Status jawapan dipaparkan atau tidak
+        let showAnswersMode = false;
+
+        // Fungsi pembantu untuk nombor rawak
+        const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+        const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+        // Fungsi menjana satu soalan berdasarkan operasi
+        const generateWordProblem = (operation) => {
+            const name = getRandomItem(names);
+            const item = getRandomItem(items);
+            const container = getRandomItem(containers);
+            
+            let n1, n2, answer, text, equation;
+
+            switch (operation) {
+                case 'tambah':
+                    n1 = getRandomInt(15, 80);
+                    n2 = getRandomInt(10, 40);
+                    answer = n1 + n2;
+                    equation = `${n1} + ${n2} = ${answer}`;
+                    text = getRandomItem([
+                        `${name} ada ${n1} ${item}. Ibunya membelikan ${n2} ${item} lagi kepadanya. Berapakah jumlah ${item} ${name} sekarang?`,
+                        `Terdapat ${n1} ${item} di dalam ${container} merah dan ${n2} ${item} di dalam ${container} biru. Berapakah jumlah kesemuanya?`,
+                        `${name} mengumpul ${n1} ${item} pada hari Isnin dan ${n2} ${item} pada hari Selasa. Berapa banyak ${item} yang dikumpul kesemuanya?`
+                    ]);
+                    break;
+                case 'tolak':
+                    n1 = getRandomInt(40, 95);
+                    n2 = getRandomInt(10, n1 - 10);
+                    answer = n1 - n2;
+                    equation = `${n1} - ${n2} = ${answer}`;
+                    text = getRandomItem([
+                        `${name} mempunyai ${n1} ${item}. Dia memberikan ${n2} ${item} kepada kawannya. Berapakah baki ${item} yang tinggal?`,
+                        `Sebuah kedai ada ${n1} ${item}. Penjual itu telah menjual ${n2} ${item}. Berapa banyak ${item} yang belum dijual?`,
+                        `${name} membawa ${n1} ${item} ke sekolah. Dia telah kehilangan ${n2} ${item}. Berapa ${item} yang ${name} ada sekarang?`
+                    ]);
+                    break;
+                case 'darab':
+                    n1 = getRandomInt(2, 9);
+                    n2 = getRandomInt(2, 9);
+                    answer = n1 * n2;
+                    equation = `${n1} × ${n2} = ${answer}`;
+                    text = getRandomItem([
+                        `${name} membeli ${n1} ${container}. Setiap ${container} berisi ${n2} ${item}. Berapakah jumlah ${item} semuanya?`,
+                        `Di dalam sebuah bilik terdapat ${n1} buah meja. Di atas setiap meja diletakkan ${n2} ${item}. Kira jumlah kesemua ${item} itu.`,
+                        `Seorang guru menyusun kerusi dalam ${n1} baris. Setiap baris ada ${n2} buah kerusi. Berapa jumlah kerusi semuanya?`
+                    ]);
+                    break;
+                case 'bahagi':
+                    n2 = getRandomInt(2, 9);
+                    answer = getRandomInt(3, 9);
+                    n1 = n2 * answer;
+                    equation = `${n1} ÷ ${n2} = ${answer}`;
+                    text = getRandomItem([
+                        `${name} mempunyai ${n1} ${item}. Dia mengagihkannya sama rata kepada ${n2} orang kawan. Berapa ${item} yang setiap orang dapat?`,
+                        `Sebanyak ${n1} ${item} dimasukkan sama banyak ke dalam ${n2} ${container}. Berapakah bilangan ${item} di dalam setiap ${container}?`,
+                        `Cikgu mengedarkan ${n1} ${item} kepada ${n2} kumpulan murid secara sama rata. Berapakah ${item} yang diterima oleh setiap kumpulan?`
+                    ]);
+                    break;
+            }
+
+            return { text, equation, answer };
+        };
+
+        // Fungsi utama menjana keseluruhan lembaran kerja
+        function generateWorksheet() {
+            // Dapatkan operasi yang dipilih
+            const ops = [];
+            if(document.getElementById('op-tambah').checked) ops.push('tambah');
+            if(document.getElementById('op-tolak').checked) ops.push('tolak');
+            if(document.getElementById('op-darab').checked) ops.push('darab');
+            if(document.getElementById('op-bahagi').checked) ops.push('bahagi');
+
+            if (ops.length === 0) {
+                alert("Sila pilih sekurang-kurangnya SATU operasi matematik.");
+                // Tick balik kotak tambah supaya tidak kosong
+                document.getElementById('op-tambah').checked = true;
+                ops.push('tambah');
+            }
+
+            const numQuestions = parseInt(document.getElementById('num-questions').value);
+            const grid = document.getElementById('questions-grid');
+            grid.innerHTML = ''; // Kosongkan grid sedia ada
+
+            for (let i = 1; i <= numQuestions; i++) {
+                // Pilih operasi secara rawak dari senarai yang di-tick
+                const op = getRandomItem(ops);
+                const q = generateWordProblem(op);
+
+                // Bina blok HTML untuk setiap soalan
+                const questionHTML = `
+                    <div class="question-box flex flex-col h-full border-2 border-gray-200 p-6 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex gap-4 mb-6">
+                            <span class="bg-gray-900 text-white font-black text-xl h-10 w-10 flex items-center justify-center rounded-full flex-shrink-0 shadow-sm">
+                                ${i}
+                            </span>
+                            <p class="text-[1.1rem] leading-relaxed font-semibold text-gray-800 pt-1">${q.text}</p>
+                        </div>
+                        
+                        <div class="flex-grow flex flex-col justify-end mt-8">
+                            <div class="text-gray-500 text-sm mb-2 font-bold tracking-wide uppercase flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 Z"></path></svg>
+                                Jalan Kerja:
+                            </div>
+                            
+                            <!-- Ruang Jalan Kerja (berubah warna jika papar jawapan) -->
+                            <div class="answer-box border-2 border-dashed rounded-xl p-4 min-h-[140px] mb-6 flex items-center justify-center bg-gray-50/50 ${showAnswersMode ? 'border-emerald-400 bg-emerald-50/50' : 'border-gray-300'}">
+                                ${showAnswersMode 
+                                    ? `<div class="text-3xl font-extrabold text-emerald-600 tracking-wider">${q.equation}</div>`
+                                    : `<div class="text-gray-300 italic text-sm text-center">Ruang penyelesaian bentuk lazim</div>`
+                                }
+                            </div>
+                            
+                            <!-- Ruang Jawapan -->
+                            <div class="flex items-center gap-3 text-xl bg-gray-100 p-4 rounded-xl border border-gray-200">
+                                <span class="font-extrabold text-gray-700">Jawapan:</span>
+                                ${showAnswersMode 
+                                    ? `<span class="font-black text-rose-600 underline underline-offset-8 decoration-2 ml-2">${q.answer}</span>`
+                                    : `<div class="border-b-2 border-gray-800 w-24 ml-2 border-dashed"></div>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                grid.innerHTML += questionHTML;
+            }
+        }
+
+        // Fungsi untuk togol papar/sembunyi jawapan
+        function toggleAnswers() {
+            showAnswersMode = !showAnswersMode;
+            
+            const btn = document.getElementById('btn-jawapan');
+            const text = document.getElementById('text-jawapan');
+            const iconEye = document.getElementById('icon-eye');
+
+            if (showAnswersMode) {
+                text.innerText = "Sembunyi Jawapan";
+                btn.classList.replace('bg-sky-500', 'bg-rose-500');
+                btn.classList.replace('hover:bg-sky-600', 'hover:bg-rose-600');
+                // Tukar ikon ke eye-off
+                iconEye.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+            } else {
+                text.innerText = "Papar Jawapan";
+                btn.classList.replace('bg-rose-500', 'bg-sky-500');
+                btn.classList.replace('hover:bg-rose-600', 'hover:bg-sky-600');
+                // Tukar ikon ke eye normal
+                iconEye.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            }
+            
+            // Jana semula lembaran untuk memaparkan status jawapan terkini
+            generateWorksheet();
+        }
+
+        // Jana lembaran kerja pertama kali apabila halaman dibuka
+        window.onload = generateWorksheet;
+
+    </script>
+</body>
+</html>
+
