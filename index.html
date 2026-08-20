@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penjana Lembaran Kerja Matematik (Dinamik)</title>
+    <title>Penjana Lembaran Kerja Matematik (Penyelesaian Masalah)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
@@ -63,7 +63,7 @@
     <div class="no-print max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-md mb-8 border-t-4 border-indigo-500">
         <h1 class="text-2xl font-bold text-indigo-700 mb-6 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
-            Penjana Lembaran Kerja Matematik (Soalan Dinamik)
+            Penjana Lembaran Kerja Matematik (Penyelesaian Masalah)
         </h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -151,7 +151,6 @@
 
         const getRand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
         const getItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
-        const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
         // ENJIN PEMBUAT AYAT DINAMIK (AI LOGIC GENERATOR)
         const createWordProblem = (operation) => {
@@ -167,23 +166,23 @@
                 n1 = getRand(15, 60); n2 = getRand(10, 39); answer = n1 + n2; equation = `${n1} + ${n2} = ${answer}`;
                 
                 switch(type) {
-                    case 1: // Senario: Menerima barang (Alat Tulis/Makanan)
+                    case 1: 
                         let obj1 = getItem(db.alatTulis.concat(db.makanan));
                         text = `${budak1} mempunyai ${n1} ${obj1.unit} ${obj1.nama}. Kawan baiknya, ${budak2} telah memberikan ${n2} ${obj1.unit} lagi kepadanya. Hitung jumlah ${obj1.nama} yang ${budak1} ada sekarang.`;
                         break;
-                    case 2: // Senario: Mengumpul/Memetik hasil
+                    case 2: 
                         let buah = getItem(db.buah);
                         text = `${dewasa} telah memetik ${n1} ${buah.unit} ${buah.nama} di kebun semalam. Hari ini, dia berjaya memetik ${n2} ${buah.unit} lagi. Berapakah jumlah keseluruhan ${buah.nama} yang telah dipetik?`;
                         break;
-                    case 3: // Senario: Menggabung kenderaan / haiwan
+                    case 3: 
                         let haiwan = getItem(db.haiwanTernak);
                         text = `Terdapat ${n1} ${haiwan.unit} ${haiwan.nama} peliharaan ${dewasa}. Dia kemudiannya telah membeli ${n2} ${haiwan.unit} ${haiwan.nama} baharu untuk diternak. Berapa banyak ${haiwan.nama} peliharaannya kini?`;
                         break;
-                    case 4: // Senario: Membeli barang
+                    case 4: 
                         let obj4 = getItem(db.makanan);
                         text = `${dewasa} membeli ${n1} ${obj4.unit} ${obj4.nama} pada waktu pagi untuk majlis. Pada waktu petang, dia menambah ${n2} ${obj4.unit} lagi. Berapakah jumlah ${obj4.nama} kesemuanya?`;
                         break;
-                    case 5: // Senario: Murid dalam kelas
+                    case 5: 
                         text = `Tahun 2 Bijak terdiri daripada ${n1} orang murid. Tahun 2 Cemerlang pula mempunyai ${n2} orang murid. Kira jumlah murid bagi kedua-dua buah kelas tersebut.`;
                         break;
                 }
@@ -192,22 +191,22 @@
                 n1 = getRand(40, 99); n2 = getRand(10, n1 - 10); answer = n1 - n2; equation = `${n1} - ${n2} = ${answer}`;
 
                 switch(type) {
-                    case 1: // Senario: Rosak / Pecah / Hilang
+                    case 1: 
                         let obj1 = getItem(db.alatTulis);
                         text = `${budak1} ada ${n1} ${obj1.unit} ${obj1.nama} di dalam begnya. Namun, ${n2} ${obj1.unit} daripadanya telah hilang di sekolah. Berapakah baki ${obj1.nama} yang tinggal?`;
                         break;
-                    case 2: // Senario: Menjual barang
+                    case 2: 
                         let makanan = getItem(db.makanan);
                         text = `${dewasa} telah menyediakan ${n1} ${makanan.unit} ${makanan.nama} untuk dijual. Menjelang tengah hari, ${n2} ${makanan.unit} telah selamat dijual. Berapakah ${makanan.nama} yang belum dijual?`;
                         break;
-                    case 3: // Senario: Memberi kepada orang lain
+                    case 3: 
                         let buah = getItem(db.buah);
                         text = `Pada asalnya, ${budak2} mengumpul sebanyak ${n1} ${buah.unit} ${buah.nama}. Dia telah mengagihkan ${n2} ${buah.unit} kepada jiran-jirannya. Berapakah baki yang ada pada ${budak2}?`;
                         break;
-                    case 4: // Senario: Penumpang bas / lori
+                    case 4: 
                         text = `Sebuah bas persiaran sedang membawa ${n1} orang penumpang. Apabila tiba di stesen pertama, seramai ${n2} orang penumpang telah turun. Berapa orang yang masih berada di dalam bas?`;
                         break;
-                    case 5: // Senario: Haiwan mati/dijual
+                    case 5: 
                         let hwn = getItem(db.haiwanTernak);
                         text = `Pak Cik Badrul menternak ${n1} ${hwn.unit} ${hwn.nama} di dalam ${hwn.rumah}. Akibat wabak penyakit, ${n2} ${hwn.unit} daripadanya telah mati. Berapa ekor ${hwn.nama} yang masih hidup?`;
                         break;
@@ -217,24 +216,24 @@
                 n1 = getRand(3, 9); n2 = getRand(3, 10); answer = n1 * n2; equation = `${n1} × ${n2} = ${answer}`;
 
                 switch(type) {
-                    case 1: // Senario: Kotak dan Isinya
+                    case 1: 
                         let alat = getItem(db.alatTulis);
                         text = `Sebuah kedai buku mempunyai ${n1} buah kotak stok. Di dalam setiap kotak tersebut terdapat ${n2} ${alat.unit} ${alat.nama}. Hitung jumlah keseluruhan ${alat.nama} di kedai itu.`;
                         break;
-                    case 2: // Senario: Hadiah kepada sekumpulan orang
+                    case 2: 
                         let mkn = getItem(db.makanan);
                         text = `${dewasa} ingin memberikan hadiah. Setiap murid akan menerima ${n1} ${mkn.unit} ${mkn.nama}. Jika terdapat ${n2} orang murid, berapakah jumlah ${mkn.nama} yang diperlukan?`;
                         break;
-                    case 3: // Senario: Susunan dalam dewan/kelas
+                    case 3: 
                         text = `Di dalam sebuah dewan, pekerja menyusun kerusi kepada ${n1} baris panjang. Setiap baris disusun dengan tepat ${n2} buah kerusi. Kira jumlah kerusi di dalam dewan itu.`;
                         break;
-                    case 4: // Senario: Kaki haiwan (Fakta logik! Kaki haiwan mesti betul)
+                    case 4: 
                         let haiwanKaki = getItem([{nama: "kucing", kaki: 4}, {nama: "lembu", kaki: 4}, {nama: "ayam", kaki: 2}, {nama: "itik", kaki: 2}]);
-                        n2 = haiwanKaki.kaki; // Tetapkan N2 mengikut fakta kaki
+                        n2 = haiwanKaki.kaki; 
                         answer = n1 * n2; equation = `${n1} × ${n2} = ${answer}`;
                         text = `Seekor ${haiwanKaki.nama} normal mempunyai ${n2} batang kaki. Cuba kira berapakah jumlah kaki jika terdapat ${n1} ekor ${haiwanKaki.nama} di situ?`;
                         break;
-                    case 5: // Senario: Wang simpanan harian
+                    case 5: 
                         text = `${budak1} menabung wang saku sebanyak RM${n1} ke dalam tabungnya setiap hari. Berapakah jumlah wang simpanan ${budak1} selepas tempoh ${n2} hari?`;
                         break;
                 }
@@ -243,22 +242,22 @@
                 n2 = getRand(2, 9); answer = getRand(3, 9); n1 = n2 * answer; equation = `${n1} ÷ ${n2} = ${answer}`;
 
                 switch(type) {
-                    case 1: // Senario: Agih sama rata kepada rakan
+                    case 1: 
                         let buah2 = getItem(db.buah);
                         text = `${budak2} membawa pulang ${n1} ${buah2.unit} ${buah2.nama}. Dia membahagikan kesemua buah itu secara sama rata kepada ${n2} orang rakan baiknya. Berapakah jumlah buah yang didapati oleh setiap rakannya?`;
                         break;
-                    case 2: // Senario: Membungkus semula
+                    case 2: 
                         let biskut = getItem(db.makanan);
                         text = `${dewasa} membakar sebanyak ${n1} ${biskut.unit} ${biskut.nama}. Dia mahu memasukkan semuanya secara sama banyak ke dalam ${n2} bekas plastik. Berapa ${biskut.nama} perlu diletak dalam setiap bekas?`;
                         break;
-                    case 3: // Senario: Cikgu mengagihkan barang
+                    case 3: 
                         let brg = getItem(db.alatTulis);
                         text = `Sekolah telah menyumbangkan ${n1} ${brg.unit} ${brg.nama}. ${dewasa} mengagihkannya secara adil kepada ${n2} kelas yang berbeza. Berapa banyak ${brg.nama} yang akan diterima oleh setiap kelas?`;
                         break;
-                    case 4: // Senario: Menyusun buku di rak
+                    case 4: 
                         text = `Di perpustakaan, terdapat ${n1} buah buku cerita baharu. Pengawas pusat sumber perlu menyusunnya sama rata pada ${n2} tingkat rak buku. Berapa buah buku yang akan berada pada setiap tingkat?`;
                         break;
-                    case 5: // Senario: Haiwan ke dalam kandang
+                    case 5: 
                         let hwn = getItem(db.haiwanTernak);
                         text = `Pihak ladang mempunyai ${n1} ekor ${hwn.nama}. Mereka memisahkan ternakan itu secara purata ke dalam ${n2} buah ${hwn.rumah}. Hitung bilangan ${hwn.nama} di dalam sebuah ${hwn.rumah}.`;
                         break;
@@ -336,7 +335,13 @@
                     `;
                     questionCounter++;
                 }
-                pageHTML += `</div></div>`; 
+                
+                pageHTML += `
+                    </div>
+                    <div class="flex-none print-only mt-2 flex justify-between text-[10px] text-gray-500 font-medium w-full">
+                        <span>Penyelesaian Masalah | Latihan Pengukuhan Tahap 1</span>
+                    </div>
+                </div>`; 
                 wrapper.innerHTML += pageHTML;
             }
         }
