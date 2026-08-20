@@ -70,8 +70,8 @@
             }
             .q-text {
                 font-size: 0.8rem !important; 
-                line-height: 1.15 !important;
-                margin-bottom: 2px !important;
+                line-height: 1.2 !important;
+                margin-bottom: 4px !important;
             }
             .q-workspace {
                 min-height: 50px !important; 
@@ -161,107 +161,91 @@
     </div>
 
     <script>
-        // Data Kosa Kata Dinamik
-        const names = ["Ali", "Abu", "Aminah", "Fatimah", "Sarah", "Mei Ling", "Ravi", "Siti", "Amira", "Sani", "Daniel", "Aina", "Muthu", "Chong", "Suzi"];
-        const fruits = ["epal", "mangga", "rambutan", "anggur", "oren", "manggis", "betik"];
-        const items = ["guli", "buku cerita", "basikal", "pelekat", "kerang", "kotak", "pemadam", "setem", "pensel warna", "pembaris", "mainan", "gula-gula"];
-        const containers = ["bakul", "kotak", "balang", "beg", "bekas", "plastik"];
-        const vehicles = ["kereta", "bas", "van", "motosikal"];
-
-        // VARIABLES GLOBAL UTAMA (QA FIX)
+        // VARIABLES GLOBAL 
         let showAnswersMode = false;
-        let currentQuestionsData = []; // Menyimpan soalan semasa supaya tak berubah bila papar jawapan
+        let currentQuestionsData = []; // Menyimpan soalan semasa
 
         const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
         const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-        // Enjin Pembuat Corak Ayat
+        // Enjin Pembuat Corak Ayat (HANYA MENGGUNAKAN AYAT LOGIK ANDA - NOMBOR SAHAJA RAWAK)
         const createWordProblem = (operation) => {
-            const name1 = getRandomItem(names);
-            let name2 = getRandomItem(names);
-            while(name1 === name2) name2 = getRandomItem(names); 
-
-            const item = getRandomItem(items);
-            const fruit = getRandomItem(fruits);
-            const container = getRandomItem(containers);
-            const vehicle = getRandomItem(vehicles);
-            
-            const patternIndex = getRandomInt(1, 10); 
+            const patternIndex = getRandomInt(1, 10); // Pilih 1 daripada 10 ayat anda
             
             let n1, n2, answer, text, equation;
 
             if (operation === 'tambah') {
-                n1 = getRandomInt(11, 60); 
-                n2 = getRandomInt(10, 45); 
+                n1 = getRandomInt(11, 45); // Limit nombor tahap 1
+                n2 = getRandomInt(5, 35); 
                 answer = n1 + n2;
                 equation = `${n1} + ${n2} = ${answer}`;
 
                 switch(patternIndex) {
-                    case 1: text = `${name1} ada ${n1} biji ${item}. ${name2} beri ${name1} ${n2} biji ${item} lagi. Berapakah jumlah ${item} ${name1} sekarang?`; break;
-                    case 2: text = `Di dalam ${container} ada ${n1} biji ${fruit} merah dan ${n2} biji ${fruit} hijau. Kira jumlah semua ${fruit} di dalam ${container} itu.`; break;
-                    case 3: text = `${name1} membeli ${n1} ${item} pada hari Isnin. Dia membeli ${n2} ${item} lagi pada hari Selasa. Berapakah jumlah ${item} yang dibelinya?`; break;
-                    case 4: text = `Sebuah kedai ada ${n1} buah ${vehicle}. Kedai itu menerima ${n2} buah ${vehicle} baharu. Berapakah jumlah ${vehicle} di kedai itu sekarang?`; break;
-                    case 5: text = `${name1} ada ${n1} keping ${item}. Kakaknya memberikan ${n2} keping ${item} lagi. Berapakah jumlah ${item} ${name1} semuanya?`; break;
+                    case 1: text = `Ali ada ${n1} biji guli. Abu beri Ali ${n2} biji guli lagi. Berapakah jumlah guli Ali sekarang?`; break;
+                    case 2: text = `Di dalam bakul ada ${n1} biji epal merah dan ${n2} biji epal hijau. Kira jumlah semua epal di dalam bakul itu.`; break;
+                    case 3: text = `Aminah membeli ${n1} buah buku cerita pada hari Isnin. Dia membeli ${n2} buah buku lagi pada hari Selasa. Berapakah jumlah buku yang dibelinya?`; break;
+                    case 4: text = `Sebuah kedai ada ${n1} buah basikal. Kedai itu menerima ${n2} buah basikal baharu. Berapakah jumlah basikal di kedai itu sekarang?`; break;
+                    case 5: text = `Fatimah ada ${n1} keping pelekat. Kakaknya memberikan ${n2} keping pelekat lagi. Berapakah jumlah pelekat Fatimah semuanya?`; break;
                     case 6: text = `Di atas padang ada ${n1} orang murid lelaki dan ${n2} orang murid perempuan. Berapakah jumlah murid di padang itu?`; break;
-                    case 7: text = `${name1} mengumpul ${n1} biji kerang. Adiknya mengumpul ${n2} biji kerang. Berapakah jumlah kerang yang mereka kumpul bersama?`; break;
+                    case 7: text = `Sarah mengumpul ${n1} biji kerang. Adiknya mengumpul ${n2} biji kerang. Berapakah jumlah kerang yang mereka kumpul bersama?`; break;
                     case 8: text = `Sebuah lori membawa ${n1} buah kotak. Sebuah lori lain membawa ${n2} buah kotak. Kira jumlah kotak yang dibawa oleh kedua-dua lori itu.`; break;
-                    case 9: text = `Pak Abu memetik ${n1} biji ${fruit} pagi tadi. Petang ini dia memetik ${n2} biji ${fruit} lagi. Berapakah jumlah ${fruit} Pak Abu?`; break;
+                    case 9: text = `Pak Abu memetik ${n1} biji mangga pagi tadi. Petang ini dia memetik ${n2} biji mangga lagi. Berapakah jumlah mangga Pak Abu?`; break;
                     case 10: text = `Kelas 2 Cerdik ada ${n1} orang murid. Kelas 2 Pintar pula ada ${n2} orang murid. Berapakah jumlah murid untuk kedua-dua kelas itu?`; break;
                 }
             } 
             else if (operation === 'tolak') {
-                n1 = getRandomInt(40, 99); 
-                n2 = getRandomInt(10, n1 - 10); 
+                n1 = getRandomInt(30, 89); 
+                n2 = getRandomInt(5, n1 - 5); // Pastikan logik tolak (n1 mesti besar dari n2)
                 answer = n1 - n2;
                 equation = `${n1} - ${n2} = ${answer}`;
 
                 switch(patternIndex) {
                     case 1: text = `Ibu membeli ${n1} biji telur. ${n2} biji telur telah pecah. Berapakah telur yang masih elok?`; break;
-                    case 2: text = `${name1} ada ${n1} batang pensel. Dia memberikan ${n2} batang pensel kepada kawannya. Berapakah baki pensel ${name1}?`; break;
-                    case 3: text = `Di dalam sebuah kotak ada ${n1} buah buku. Cikgu mengeluarkan ${n2} buah buku. Berapakah buku yang tinggal di dalam kotak?`; break;
+                    case 2: text = `Ravi ada ${n1} batang pensel. Dia memberikan ${n2} batang pensel kepada kawannya. Berapakah baki pensel Ravi?`; break;
+                    case 3: text = `Di dalam sebuah kotak ada ${n1} buah buku. Cikgu Siti mengeluarkan ${n2} buah buku. Berapakah buku yang tinggal di dalam kotak?`; break;
                     case 4: text = `Sebuah kedai roti membakar ${n1} biji bun. ${n2} biji bun telah dijual. Berapakah bun yang belum dijual?`; break;
-                    case 5: text = `${name1} ada ${n1} keping pemadam. Dia hilang ${n2} keping pemadam itu. Berapakah pemadam ${name1} yang tinggal?`; break;
-                    case 6: text = `Pak Cik memetik ${n1} biji ${fruit}. Dia menjual ${n2} biji daripadanya. Berapakah baki ${fruit} Pak Cik?`; break;
+                    case 5: text = `Amira ada ${n1} keping pemadam. Dia hilang ${n2} keping pemadam itu. Berapakah pemadam Amira yang tinggal?`; break;
+                    case 6: text = `Pak Cik Samad memetik ${n1} biji rambutan. Dia menjual ${n2} biji daripadanya. Berapakah baki rambutan Pak Cik Samad?`; break;
                     case 7: text = `Di dalam sebuah kolam ada ${n1} ekor ikan. ${n2} ekor ikan telah mati. Berapakah ekor ikan yang masih hidup?`; break;
                     case 8: text = `Sebuah bas membawa ${n1} orang penumpang. Apabila sampai di stesen, ${n2} orang penumpang turun. Berapakah penumpang yang tinggal di dalam bas?`; break;
-                    case 9: text = `${name1} ada ${n1} keping setem. Dia memberi adiknya ${n2} keping. Berapakah setem ${name1} sekarang?`; break;
-                    case 10: text = `Sebuah pokok ada ${n1} biji ${fruit}. Malangnya, ${n2} biji telah dimakan burung. Berapakah ${fruit} yang masih elok di pokok?`; break;
+                    case 9: text = `Mei Ling ada ${n1} keping setem. Dia memberi adiknya ${n2} keping. Berapakah setem Mei Ling sekarang?`; break;
+                    case 10: text = `Sebuah pokok ada ${n1} biji pepaya. Malangnya, ${n2} biji telah dimakan burung. Berapakah pepaya yang masih elok di pokok?`; break;
                 }
             }
             else if (operation === 'darab') {
-                n1 = getRandomInt(3, 9); 
-                n2 = getRandomInt(3, 12); 
+                n1 = getRandomInt(2, 9); 
+                n2 = getRandomInt(2, 12); 
                 answer = n1 * n2;
                 equation = `${n1} × ${n2} = ${answer}`;
 
                 switch(patternIndex) {
-                    case 1: text = `Ada ${n1} buah ${container}. Setiap ${container} mengandungi ${n2} biji bola. Berapakah jumlah semua bola itu?`; break;
+                    case 1: text = `Ada ${n1} buah kotak. Setiap kotak mengandungi ${n2} biji bola. Berapakah jumlah semua bola itu?`; break;
                     case 2: text = `Setiap murid menerima ${n2} batang pensel warna. Jika ada ${n1} orang murid, berapakah jumlah pensel warna semuanya?`; break;
                     case 3: text = `Ibu membeli ${n1} gugus anggur. Setiap gugus ada ${n2} biji anggur. Berapakah jumlah buah anggur yang ibu beli?`; break;
                     case 4: text = `Di dalam sebuah kelas ada ${n1} baris meja. Setiap baris ada ${n2} buah meja. Berapakah jumlah meja di dalam kelas itu?`; break;
-                    case 5: text = `Sebuah basikal ada 2 biji roda. Berapakah jumlah roda bagi ${n1} buah basikal yang sama?`; equation = `${n1} × 2 = ${n1 * 2}`; answer = n1 * 2; break;
+                    case 5: text = `Sebuah motosikal ada 2 biji roda. Berapakah jumlah roda bagi ${n1} buah motosikal yang sama?`; equation = `${n1} × 2 = ${n1 * 2}`; answer = n1 * 2; break; // Kes khas sbb roda motosikal sentiasa 2
                     case 6: text = `Setiap tingkat bangunan ada ${n2} buah bilik. Berapakah jumlah bilik jika bangunan itu ada ${n1} tingkat?`; break;
                     case 7: text = `Kakak menyusun kuih ke dalam ${n1} buah piring. Setiap piring diletakkan ${n2} biji kuih. Berapakah jumlah kuih semuanya?`; break;
-                    case 8: text = `Sebuah ${vehicle} boleh dinaiki oleh ${n2} orang. Berapakah jumlah orang yang boleh menaiki ${n1} buah ${vehicle} yang sama?`; break;
+                    case 8: text = `Sebuah kereta boleh dinaiki oleh 5 orang. Berapakah jumlah orang yang boleh menaiki ${n1} buah kereta yang sama?`; equation = `${n1} × 5 = ${n1 * 5}`; answer = n1 * 5; break; // Kes khas muatan kereta statik
                     case 9: text = `Bapa membeli ${n1} kotak susu. Setiap kotak mengandungi ${n2} botol susu. Berapakah jumlah botol susu yang dibeli bapa?`; break;
-                    case 10: text = `Setiap hari ${name1} menyimpan RM${n2}. Berapakah jumlah wang simpanan ${name1} selepas ${n1} hari?`; break;
+                    case 10: text = `Setiap hari Taufik menyimpan RM${n2}. Berapakah jumlah wang simpanan Taufik selepas ${n1} hari?`; break;
                 }
             }
             else if (operation === 'bahagi') {
                 n2 = getRandomInt(2, 9); 
-                answer = getRandomInt(3, 12); 
-                n1 = n2 * answer;
+                answer = getRandomInt(3, 10); 
+                n1 = n2 * answer; // Logik sifir (supaya tidak berbaki)
                 equation = `${n1} ÷ ${n2} = ${answer}`;
 
                 switch(patternIndex) {
                     case 1: text = `Cikgu ada ${n1} batang pembaris. Dia membahagikan pembaris itu sama rata kepada ${n2} orang murid. Berapakah pembaris yang diterima oleh setiap murid?`; break;
-                    case 2: text = `Ibu ada ${n1} keping biskut dan mahu memasukkannya ke dalam ${n2} buah balang secara sama banyak. Berapakah biskut di dalam setiap balang?`; break;
+                    case 2: text = `Ibu ada ${n1} biji biskut dan mahu memasukkannya ke dalam ${n2} buah balang secara sama banyak. Berapakah biskut di dalam setiap balang?`; break;
                     case 3: text = `Ada ${n1} biji guli di dalam sebuah bekas. Guli itu dikongsi sama rata antara ${n2} orang kawan. Berapakah guli yang dapat setiap seorang?`; break;
                     case 4: text = `Seorang peladang mahu memasukkan ${n1} biji oren ke dalam ${n2} buah bakul secara sama banyak. Berapakah oren di dalam setiap bakul?`; break;
-                    case 5: text = `Pak Cik ada ${n1} ekor anak ayam. Dia membahagikan anak ayam itu ke dalam ${n2} buah reban secara sama rata. Berapakah anak ayam di dalam setiap reban?`; break;
+                    case 5: text = `Pak Cik Lim ada ${n1} ekor anak ayam. Dia membahagikan anak ayam itu ke dalam ${n2} buah reban secara sama rata. Berapakah anak ayam di dalam setiap reban?`; break;
                     case 6: text = `Ada ${n1} buah buku yang perlu disusun secara sama banyak di atas ${n2} tingkat rak. Berapakah buah buku pada setiap tingkat rak?`; break;
-                    case 7: text = `Sebuah kilang mahu mengagihkan ${n1} buah kerusi kepada ${n2} buah sekolah secara sama rata. Berapakah kerusi yang diterima oleh setiap sekolah?`; break;
-                    case 8: text = `${name1} ada ${n1} keping pelekat. Dia menampal pelekat itu sama banyak pada ${n2} buah muka surat buku log. Berapakah pelekat pada setiap muka surat?`; break;
+                    case 7: text = `Sebuah kilang mahu mengagihkan ${n1} buah kuiz kepada ${n2} buah sekolah secara sama rata. Berapakah kuiz yang diterima oleh setiap sekolah?`; break;
+                    case 8: text = `Sani ada ${n1} keping pelekat. Dia menampal pelekat itu sama banyak pada ${n2} buah muka surat buku log. Berapakah pelekat pada setiap muka surat?`; break;
                     case 9: text = `Atuk ada ${n1} biji rambutan. Atuk memberikan rambutan itu sama banyak kepada ${n2} orang cucunya. Berapakah biji rambutan yang didapat oleh setiap cucu?`; break;
                     case 10: text = `Kakak memotong sebiji kek kepada ${n1} potong. Kek itu dibahagikan sama rata kepada ${n2} orang tetangga. Berapakah potong kek yang diterima oleh setiap tetangga?`; break;
                 }
@@ -269,7 +253,7 @@
             return { text, equation, answer };
         };
 
-        // FUNGSI 1: JANA DATA SAHAJA
+        // FUNGSI JANA SOALAN KE DALAM MEMORI
         function generateNewQuestions() {
             const ops = [];
             if(document.getElementById('op-tambah').checked) ops.push('tambah');
@@ -285,20 +269,17 @@
 
             const totalQuestions = parseInt(document.getElementById('num-questions').value);
             
-            // Kosongkan array lama
             currentQuestionsData = [];
 
-            // Hasilkan dan simpan soalan baru dalam memori
             for (let i = 0; i < totalQuestions; i++) {
                 const op = getRandomItem(ops);
                 currentQuestionsData.push(createWordProblem(op));
             }
 
-            // Selepas data dijana, barulah panggil fungsi render lukis ke skrin
             renderWorksheet();
         }
 
-        // FUNGSI 2: LUKIS HTML KE SKRIN BERDASARKAN DATA (Tiada soalan baru dijana di sini)
+        // FUNGSI LUKIS HTML KE SKRIN (Membaca Data Semasa)
         function renderWorksheet() {
             const qsPerPage = 6; 
             const totalPages = Math.ceil(currentQuestionsData.length / qsPerPage);
@@ -334,7 +315,6 @@
                     <div class="question-grid question-grid-screen">
                 `;
 
-                // Loop membaca memori data (bukan menjana)
                 for (let i = 0; i < qsPerPage; i++) {
                     if (questionCounter > currentQuestionsData.length) break;
 
@@ -347,7 +327,7 @@
                                 <span class="bg-gray-800 text-white font-bold text-[0.8rem] h-5 w-5 flex items-center justify-center rounded-full flex-shrink-0 mt-0.5">
                                     ${questionCounter}
                                 </span>
-                                <p class="q-text text-[0.9rem] leading-snug font-semibold text-gray-800">${q.text}</p>
+                                <p class="q-text text-[0.85rem] leading-snug font-semibold text-gray-800">${q.text}</p>
                             </div>
                             
                             <!-- Ruang Jalan Kerja -->
@@ -379,7 +359,7 @@
             }
         }
 
-        // FUNGSI 3: TOGGLE BUTANG JAWAPAN SAHAJA (Tak ganggu fungsi menjana)
+        // FUNGSI PAPAR JAWAPAN
         function toggleAnswers() {
             showAnswersMode = !showAnswersMode;
             const btn = document.getElementById('btn-jawapan');
@@ -395,11 +375,10 @@
                 btn.classList.replace('hover:bg-rose-600', 'hover:bg-sky-600');
             }
             
-            // Panggil fungsi lukis SAHAJA (soalan kekal)
             renderWorksheet();
         }
 
-        // Pada awal pembukaan web, jana soalan pertama kali
+        // Buka app, jana soalan pertama kali
         window.onload = generateNewQuestions;
     </script>
 </body>
