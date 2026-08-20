@@ -3,60 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penjana Lembaran Kerja (QA Approved)</title>
+    <title>Penjana Lembaran Kerja (6 Soalan)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
         body {
             font-family: 'Nunito', sans-serif;
-            background-color: #f3f4f6; /* bg-gray-100 */
+            background-color: #f3f4f6;
         }
 
-        /* --- KAWALAN KETAT UNTUK PERCETAKAN (QA AUDIT) --- */
+        /* --- KAWALAN CETAKAN (QA AUDIT) --- */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 10mm !important; /* Paksa margin cetakan kecil */
+                margin: 1cm; /* Margin yang selamat untuk semua printer */
             }
             body {
                 background-color: white !important;
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact; 
+                margin: 0 !important;
+                padding: 0 !important;
             }
             .no-print {
                 display: none !important;
             }
-            /* Kontena utama dikunci pada saiz A4 untuk elak lari ke page 2 */
+            
+            /* Kunci saiz muka surat supaya tak lari */
             .a4-page {
-                height: 277mm !important; /* Tinggi A4 (297mm) tolak margin atas bawah (20mm) */
-                max-height: 277mm !important;
                 width: 100% !important;
-                padding: 0 !important;
+                height: 98vh !important; /* Gunakan 98% ruang boleh cetak */
+                max-height: 98vh !important;
                 margin: 0 !important;
-                box-shadow: none !important;
+                padding: 0 !important;
                 border: none !important;
+                box-shadow: none !important;
                 page-break-after: always;
                 page-break-inside: avoid;
-                display: flex;
-                flex-direction: column;
+                display: flex !important;
+                flex-direction: column !important;
+                overflow: hidden !important; /* Halang sebarang kebocoran ruang */
             }
-            /* Hilangkan page break pada page terakhir supaya tiada blank page */
-            .a4-page:last-of-type {
+            .a4-page:last-child {
                 page-break-after: auto;
             }
-            .print-gap {
-                gap: 0.75rem !important; /* Rapatkan gap sikit masa print */
+
+            /* Paksa grid menjadi tepat 3 baris sahaja */
+            .question-grid {
+                flex-grow: 1 !important;
+                display: grid !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                grid-template-rows: repeat(3, minmax(0, 1fr)) !important;
+                gap: 0.75rem !important;
+            }
+        }
+        
+        /* Paparan skrin (bukan print) */
+        .question-grid-screen {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .question-grid-screen {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
     </style>
 </head>
 <body class="text-gray-800 p-4 md:p-8">
 
-    <!-- PANEL KAWALAN (Tidak dicetak) -->
+    <!-- PANEL KAWALAN (Tidak akan dicetak) -->
     <div class="no-print max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-md mb-8 border-t-4 border-indigo-500">
         <h1 class="text-2xl font-bold text-indigo-700 mb-6 flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
-            Penjana Lembaran Kerja (Disemak - 1 Muka Surat Penuh)
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Penjana Lembaran Kerja (Disemak - 6 Soalan/Page)
         </h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -86,21 +107,21 @@
                 <div class="flex items-center gap-3">
                     <h2 class="font-semibold text-indigo-800 whitespace-nowrap">2. Susunan Cetakan:</h2>
                     <select id="num-questions" class="border-gray-300 rounded-lg p-2 font-medium bg-white w-full" onchange="generateWorksheet()">
-                        <option value="4">4 Soalan (Setengah Muka Surat)</option>
-                        <option value="8" selected>8 Soalan (Kemas 1 Muka Surat)</option>
-                        <option value="16">16 Soalan (Kemas 2 Muka Surat)</option>
+                        <option value="6" selected>6 Soalan (1 Muka Surat)</option>
+                        <option value="12">12 Soalan (2 Muka Surat)</option>
+                        <option value="18">18 Soalan (3 Muka Surat)</option>
                     </select>
                 </div>
 
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-2 mt-2">
-                    <button onclick="generateWorksheet()" class="bg-emerald-500 hover:bg-emerald-600 text-white py-2 px-3 rounded-lg font-bold flex items-center justify-center gap-2 lg:col-span-1 col-span-2">
+                    <button onclick="generateWorksheet()" class="bg-emerald-500 hover:bg-emerald-600 text-white py-2 px-3 rounded-lg font-bold flex items-center justify-center gap-2 lg:col-span-1 col-span-2 shadow">
                         Jana Semula
                     </button>
-                    <button id="btn-jawapan" onclick="toggleAnswers()" class="bg-sky-500 hover:bg-sky-600 text-white py-2 px-3 rounded-lg font-bold flex items-center justify-center gap-2">
-                        <span id="text-jawapan">Papar Jawapan</span>
+                    <button id="btn-jawapan" onclick="toggleAnswers()" class="bg-sky-500 hover:bg-sky-600 text-white py-2 px-3 rounded-lg font-bold flex items-center justify-center gap-2 shadow">
+                        <span id="text-jawapan">Jawapan</span>
                     </button>
-                    <button onclick="window.print()" class="bg-gray-800 hover:bg-gray-900 text-white py-2 px-3 rounded-lg font-bold flex items-center justify-center gap-2">
-                        Cetak Tepat
+                    <button onclick="window.print()" class="bg-gray-800 hover:bg-gray-900 text-white py-2 px-3 rounded-lg font-bold flex items-center justify-center gap-2 shadow">
+                        Cetak
                     </button>
                 </div>
             </div>
@@ -113,16 +134,16 @@
     </div>
 
     <script>
-        const names = ["Ahmad", "Siti", "Ali", "Aisyah", "Muthu", "Mei Ling", "Raju", "Farid", "Nurul", "Daniel"];
-        const items = ["biji epal", "batang pensel", "biji guli", "buku cerita", "keping biskut", "gula-gula", "biji oren", "pemadam"];
-        const containers = ["bakul", "kotak", "balang", "beg"];
+        const names = ["Ahmad", "Siti", "Ali", "Aisyah", "Muthu", "Mei Ling", "Raju", "Farid", "Nurul", "Daniel", "Adam", "Mia"];
+        const items = ["biji epal", "batang pensel", "biji guli", "buku cerita", "keping biskut", "gula-gula", "biji oren", "pemadam", "mainan"];
+        const containers = ["bakul", "kotak", "balang", "beg", "plastik"];
 
         let showAnswersMode = false;
 
         const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
         const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-        // Logik soalan dikekalkan seperti sebelumnya
+        // Penjanaan Soalan
         const generateWordProblem = (operation) => {
             const name = getRandomItem(names);
             const item = getRandomItem(items);
@@ -136,8 +157,8 @@
                     equation = `${n1} + ${n2} = ${answer}`;
                     text = getRandomItem([
                         `${name} ada ${n1} ${item}. Ibunya membelikan ${n2} ${item} lagi kepadanya. Berapakah jumlah ${item} sekarang?`,
-                        `Terdapat ${n1} ${item} dalam ${container} merah dan ${n2} ${item} dalam ${container} biru. Kira jumlahnya.`,
-                        `${name} kumpul ${n1} ${item} hari Isnin dan ${n2} ${item} hari Selasa. Berapa banyak dikumpul?`
+                        `Terdapat ${n1} ${item} dalam ${container} merah dan ${n2} ${item} dalam ${container} biru. Kira jumlah kesemuanya.`,
+                        `${name} kumpul ${n1} ${item} hari Isnin dan ${n2} ${item} hari Selasa. Berapa banyak dikumpul semuanya?`
                     ]);
                     break;
                 case 'tolak':
@@ -179,13 +200,13 @@
             if(document.getElementById('op-bahagi').checked) ops.push('bahagi');
 
             if (ops.length === 0) {
-                alert("Pilih sekurang-kurangnya SATU operasi.");
+                alert("Sila pilih sekurang-kurangnya SATU operasi.");
                 document.getElementById('op-tambah').checked = true;
                 ops.push('tambah');
             }
 
             const totalQuestions = parseInt(document.getElementById('num-questions').value);
-            const qsPerPage = 8; // Tetapan ketat: Maksimum 8 soalan per muka surat (Grid 4x2)
+            const qsPerPage = 6; // DITETAPKAN SECARA KETAT KEPADA 6
             const totalPages = Math.ceil(totalQuestions / qsPerPage);
             
             const wrapper = document.getElementById('worksheet-wrapper');
@@ -193,75 +214,66 @@
 
             let questionCounter = 1;
 
-            // Loop mengikut bilangan muka surat (Page Chunking)
+            // Loop mengikut bilangan muka surat
             for (let p = 0; p < totalPages; p++) {
-                
-                let numRows = 4; // Default untuk 8 soalan
-                let questionsInThisPage = qsPerPage;
-                
-                // Jika user pilih 4 soalan sahaja
-                if (totalQuestions === 4) {
-                    numRows = 2;
-                    questionsInThisPage = 4;
-                }
                 
                 // HTML Pengepala untuk setiap muka surat
                 let pageHTML = `
-                <div class="a4-page bg-white p-6 sm:p-10 shadow-xl rounded-2xl">
-                    <!-- HEADER KEKAL KECIL UNTUK JIMAT RUANG -->
-                    <div class="flex-none border-b-2 border-gray-800 pb-3 mb-4">
-                        <h1 class="text-xl sm:text-2xl font-black text-center mb-3 uppercase tracking-widest text-gray-900">Lembaran Kerja Matematik</h1>
-                        <div class="flex flex-col sm:flex-row justify-between gap-3 text-sm font-semibold">
+                <div class="a4-page bg-white p-6 sm:p-10 shadow-xl rounded-2xl print:shadow-none print:rounded-none border border-gray-200">
+                    <!-- HEADER -->
+                    <div class="flex-none border-b-[3px] border-gray-800 pb-3 mb-4">
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-center mb-4 uppercase tracking-wider text-gray-900">Lembaran Kerja Matematik</h1>
+                        <div class="flex flex-col sm:flex-row justify-between gap-4 text-base font-bold text-gray-700">
                             <div class="flex items-end gap-2 w-full sm:w-1/2">
-                                <span>NAMA :</span><div class="border-b border-gray-600 flex-grow border-dashed"></div>
+                                <span>NAMA :</span><div class="border-b-2 border-gray-500 flex-grow border-dashed"></div>
                             </div>
-                            <div class="flex flex-row justify-between w-full sm:w-1/2 gap-3">
+                            <div class="flex flex-row justify-between w-full sm:w-1/2 gap-4">
                                 <div class="flex items-end gap-2 w-1/2">
-                                    <span>KELAS :</span><div class="border-b border-gray-600 flex-grow border-dashed"></div>
+                                    <span>KELAS :</span><div class="border-b-2 border-gray-500 flex-grow border-dashed"></div>
                                 </div>
                                 <div class="flex items-end gap-2 w-1/2">
-                                    <span>TARIKH :</span><div class="border-b border-gray-600 flex-grow border-dashed"></div>
+                                    <span>TARIKH :</span><div class="border-b-2 border-gray-500 flex-grow border-dashed"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- GRID SOALAN DIKUNCI FLEKSIBILITI (flex-grow) -->
-                    <div class="flex-grow grid grid-cols-2 gap-4 print-gap" style="grid-template-rows: repeat(${numRows}, minmax(0, 1fr));">
+                    <!-- GRID SOALAN: 3 Baris x 2 Lajur -->
+                    <div class="question-grid question-grid-screen">
                 `;
 
-                // Loop soalan dalam muka surat tersebut
-                for (let i = 0; i < questionsInThisPage; i++) {
+                // Loop 6 soalan
+                for (let i = 0; i < qsPerPage; i++) {
                     if (questionCounter > totalQuestions) break;
 
                     const op = getRandomItem(ops);
                     const q = generateWordProblem(op);
 
-                    // Kotak soalan dipaksa memanjang (h-full, flex-col)
+                    // Kotak soalan dipaksa memanjang dengan flex-col dan flex-grow
                     pageHTML += `
-                        <div class="h-full flex flex-col border border-gray-300 p-3 rounded-xl">
+                        <div class="h-full flex flex-col border-2 border-gray-300 p-4 rounded-xl relative">
                             <!-- Teks Soalan -->
-                            <div class="flex gap-2 mb-2">
-                                <span class="bg-gray-800 text-white font-bold text-sm h-6 w-6 flex items-center justify-center rounded-full flex-shrink-0 mt-0.5">
+                            <div class="flex gap-3 mb-3">
+                                <span class="bg-gray-900 text-white font-black text-lg h-8 w-8 flex items-center justify-center rounded-full flex-shrink-0">
                                     ${questionCounter}
                                 </span>
-                                <p class="text-[0.9rem] leading-tight font-medium text-gray-800">${q.text}</p>
+                                <p class="text-[0.95rem] sm:text-base leading-snug font-semibold text-gray-800 pt-0.5">${q.text}</p>
                             </div>
                             
-                            <!-- Ruang Jalan Kerja dipaksa penuhi baki ruang (flex-grow) -->
-                            <div class="flex-grow border border-dashed rounded-lg p-2 mb-2 flex items-center justify-center bg-gray-50 ${showAnswersMode ? 'border-emerald-400 bg-emerald-50' : 'border-gray-300'}">
+                            <!-- Ruang Jalan Kerja (Meresap baki ruang) -->
+                            <div class="flex-grow border-2 border-dashed rounded-lg p-2 mb-3 flex items-center justify-center bg-gray-50/50 ${showAnswersMode ? 'border-emerald-400 bg-emerald-50' : 'border-gray-300'}">
                                 ${showAnswersMode 
-                                    ? `<div class="text-xl font-bold text-emerald-600">${q.equation}</div>`
-                                    : ``
+                                    ? `<div class="text-2xl font-bold text-emerald-600">${q.equation}</div>`
+                                    : `<span class="text-gray-300 text-sm italic">Bentuk lazim</span>`
                                 }
                             </div>
                             
                             <!-- Ruang Jawapan -->
-                            <div class="flex items-center gap-2 text-sm mt-auto">
-                                <span class="font-bold text-gray-700">Jawapan:</span>
+                            <div class="flex items-center gap-2 text-base mt-auto bg-gray-100 p-2 px-3 rounded-lg border border-gray-200">
+                                <span class="font-extrabold text-gray-700">Jawapan:</span>
                                 ${showAnswersMode 
-                                    ? `<span class="font-bold text-rose-600 underline">${q.answer}</span>`
-                                    : `<div class="border-b border-gray-800 flex-grow max-w-[80px]"></div>`
+                                    ? `<span class="font-black text-rose-600 underline text-lg">${q.answer}</span>`
+                                    : `<div class="border-b-2 border-gray-800 flex-grow max-w-[100px] border-dashed"></div>`
                                 }
                             </div>
                         </div>
@@ -272,10 +284,10 @@
                 pageHTML += `
                     </div>
                     <!-- FOOTER -->
-                    <div class="flex-none print-only mt-2 text-center text-[10px] text-gray-500 font-medium border-t pt-1">
-                        Penyelesaian Masalah | Muka Surat ${p + 1}
+                    <div class="flex-none print-only mt-3 text-center text-xs text-gray-500 font-medium">
+                        Penyelesaian Masalah | Latihan Pengukuhan
                     </div>
-                </div>`; // Tutup a4-page
+                </div>`; 
 
                 wrapper.innerHTML += pageHTML;
             }
@@ -291,7 +303,7 @@
                 btn.classList.replace('bg-sky-500', 'bg-rose-500');
                 btn.classList.replace('hover:bg-sky-600', 'hover:bg-rose-600');
             } else {
-                text.innerText = "Papar Jawapan";
+                text.innerText = "Paparan Jawapan";
                 btn.classList.replace('bg-rose-500', 'bg-sky-500');
                 btn.classList.replace('hover:bg-rose-600', 'hover:bg-sky-600');
             }
