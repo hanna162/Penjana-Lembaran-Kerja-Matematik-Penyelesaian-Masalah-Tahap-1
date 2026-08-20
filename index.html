@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penjana Lembaran Kerja (Bebas Isu Terpotong)</title>
+    <title>Penjana Lembaran Kerja (Ultimate Compact)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
@@ -12,11 +12,11 @@
             background-color: #f3f4f6;
         }
 
-        /* --- KAWALAN CETAKAN SUPER KETAT --- */
+        /* --- KAWALAN CETAKAN ULTIMATE --- */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 8mm; /* Kurangkan margin kepada 8mm sahaja */
+                margin: 5mm; /* Margin paling minimum (5mm) */
             }
             body {
                 background-color: white !important;
@@ -24,69 +24,67 @@
                 print-color-adjust: exact; 
                 margin: 0 !important;
                 padding: 0 !important;
+                zoom: 0.95; /* KUNCI UTAMA: Kecilkan dokumen 5% supaya gerenti muat! */
             }
             .no-print {
                 display: none !important;
             }
             
-            /* Kunci Muka Surat pada saiz tetap 280mm (A4 tolak margin) */
             .a4-page {
                 width: 100% !important;
-                height: 280mm !important; 
-                max-height: 280mm !important;
+                /* Biarkan browser tentukan height secara semula jadi, tetapi break dengan betul */
+                page-break-after: always; 
+                page-break-inside: avoid;
                 margin: 0 !important;
                 padding: 0 !important;
                 border: none !important;
                 box-shadow: none !important;
-                page-break-after: always;
-                page-break-inside: avoid;
                 display: flex !important;
                 flex-direction: column !important;
-                overflow: hidden !important; 
+                min-height: 270mm !important; /* Paksa minimum height */
             }
             .a4-page:last-child {
                 page-break-after: auto;
             }
 
-            /* Header dipadatkan */
             .print-header {
-                padding-bottom: 5px !important;
-                margin-bottom: 10px !important;
+                padding-bottom: 2px !important;
+                margin-bottom: 5px !important;
                 border-bottom-width: 2px !important;
             }
             .print-header h1 {
-                margin-bottom: 5px !important;
-                font-size: 1.25rem !important; /* Saiz tajuk lebih kecil */
+                margin-bottom: 2px !important;
+                font-size: 1.1rem !important; /* Tajuk lebih kecil */
             }
 
-            /* Grid dipaksa ambil baki saiz yang ada */
             .question-grid {
                 flex-grow: 1 !important;
                 display: grid !important;
                 grid-template-columns: repeat(2, 1fr) !important;
                 grid-template-rows: repeat(3, 1fr) !important;
-                gap: 8px !important; /* Gap sangat kecil */
+                gap: 5px !important; /* Gap sangat, sangat kecil */
             }
 
-            /* Kotak Soalan dipadatkan gila-gila */
             .q-box {
-                padding: 8px !important; /* Kurangkan padding dari 16px ke 8px */
+                padding: 6px !important; /* Padding minimum */
                 border-width: 1px !important;
             }
             .q-text {
-                font-size: 0.85rem !important; /* Teks lebih kecil untuk elak 3 baris */
-                line-height: 1.2 !important;
-                margin-bottom: 4px !important;
+                font-size: 0.8rem !important; /* Teks dikecilkan */
+                line-height: 1.15 !important;
+                margin-bottom: 2px !important;
             }
             .q-workspace {
-                min-height: 40px !important; /* Biar flex-grow buat kerja */
-                padding: 4px !important;
-                margin-bottom: 4px !important;
+                min-height: 50px !important; 
+                padding: 2px !important;
+                margin-bottom: 2px !important;
             }
-            .q-answer {
-                padding: 4px 8px !important;
-                font-size: 0.85rem !important;
+            /* Jawapan dibuang background supaya jimat 20px ketinggian */
+            .q-answer-container {
+                padding: 0 !important;
                 margin-top: 0 !important;
+                background-color: transparent !important;
+                border: none !important;
             }
         }
         
@@ -109,7 +107,7 @@
     <div class="no-print max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-md mb-8 border-t-4 border-indigo-500">
         <h1 class="text-2xl font-bold text-indigo-700 mb-6 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
-            Penjana Lembaran Kerja (Disemak - Tiada Isu Terpotong)
+            Penjana Lembaran Kerja (Versi Ultimate Compact)
         </h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -153,7 +151,7 @@
                         <span id="text-jawapan">Jawapan</span>
                     </button>
                     <button onclick="window.print()" class="bg-gray-800 hover:bg-gray-900 text-white py-2 px-3 rounded-lg font-bold flex items-center justify-center gap-2 shadow">
-                        Cetak
+                        Cetak Tepat
                     </button>
                 </div>
             </div>
@@ -166,6 +164,7 @@
     </div>
 
     <script>
+        // Data soalan yang sama macam sebelum ini
         const names = ["Ahmad", "Siti", "Ali", "Aisyah", "Muthu", "Mei", "Raju", "Farid", "Nurul", "Daniel", "Adam", "Mia"];
         const items = ["biji epal", "batang pensel", "biji guli", "buku", "keping biskut", "gula-gula", "biji oren", "pemadam", "mainan"];
         const containers = ["bakul", "kotak", "balang", "beg", "plastik"];
@@ -175,7 +174,7 @@
         const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
         const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-        // Teks dipendekkan sedikit untuk pastikan tak makan terlalu banyak ruang
+        // Teks paling pendek (supaya tidak jadi 3 baris kalau boleh)
         const generateWordProblem = (operation) => {
             const name = getRandomItem(names);
             const item = getRandomItem(items);
@@ -188,36 +187,36 @@
                     n1 = getRandomInt(15, 80); n2 = getRandomInt(10, 40); answer = n1 + n2;
                     equation = `${n1} + ${n2} = ${answer}`;
                     text = getRandomItem([
-                        `${name} ada ${n1} ${item}. Ibunya beli ${n2} ${item} lagi kepadanya. Berapa jumlah sekarang?`,
-                        `Ada ${n1} ${item} dalam ${container} merah dan ${n2} ${item} dalam ${container} biru. Kira jumlahnya.`,
-                        `${name} kumpul ${n1} ${item} hari Isnin dan ${n2} ${item} hari Selasa. Berapa banyak dikumpul?`
+                        `${name} ada ${n1} ${item}. Ibu beri ${n2} ${item} lagi. Berapa jumlah sekarang?`,
+                        `Ada ${n1} ${item} dalam beg A dan ${n2} ${item} dalam beg B. Kira jumlahnya.`,
+                        `${name} beli ${n1} ${item}. Kemudian beli ${n2} ${item} lagi. Berapa banyak dikumpul?`
                     ]);
                     break;
                 case 'tolak':
                     n1 = getRandomInt(40, 95); n2 = getRandomInt(10, n1 - 10); answer = n1 - n2;
                     equation = `${n1} - ${n2} = ${answer}`;
                     text = getRandomItem([
-                        `${name} ada ${n1} ${item}. Dia beri ${n2} ${item} kepada kawannya. Berapa baki tinggal?`,
-                        `Kedai ada ${n1} ${item}. Telah dijual ${n2} ${item}. Berapa banyak belum dijual?`,
-                        `${name} bawa ${n1} ${item} ke sekolah. Dia hilangkan ${n2} ${item}. Berapa baki sekarang?`
+                        `${name} ada ${n1} ${item}. Diberi ${n2} ${item} kepada kawan. Berapa baki tinggal?`,
+                        `Kedai ada ${n1} ${item}. Dijual ${n2} ${item}. Berapa banyak yang belum dijual?`,
+                        `Dari ${n1} ${item}, sebanyak ${n2} rosak. Berapa yang elok?`
                     ]);
                     break;
                 case 'darab':
                     n1 = getRandomInt(2, 9); n2 = getRandomInt(2, 9); answer = n1 * n2;
                     equation = `${n1} × ${n2} = ${answer}`;
                     text = getRandomItem([
-                        `${name} beli ${n1} ${container}. Setiap ${container} ada ${n2} ${item}. Kira jumlah semuanya?`,
-                        `Dalam bilik ada ${n1} meja. Atas setiap meja diletakkan ${n2} ${item}. Kira jumlahnya.`,
-                        `Guru susun kerusi dalam ${n1} baris. Setiap baris ada ${n2} kerusi. Berapa jumlah kerusi?`
+                        `${name} beli ${n1} kotak. Setiap kotak ada ${n2} ${item}. Kira jumlahnya?`,
+                        `Ada ${n1} meja. Atas setiap meja ada ${n2} ${item}. Kira jumlahnya.`,
+                        `Guru susun ${n1} baris. Setiap baris ada ${n2} kerusi. Berapa jumlah kerusi?`
                     ]);
                     break;
                 case 'bahagi':
                     n2 = getRandomInt(2, 9); answer = getRandomInt(3, 9); n1 = n2 * answer;
                     equation = `${n1} ÷ ${n2} = ${answer}`;
                     text = getRandomItem([
-                        `${name} ada ${n1} ${item}. Dia agihkan sama rata kepada ${n2} kawan. Berapa setiap orang dapat?`,
-                        `Sebanyak ${n1} ${item} diisi sama rata ke dalam ${n2} ${container}. Berapa bilangan setiap ${container}?`,
-                        `Cikgu edar ${n1} ${item} kepada ${n2} kumpulan murid. Berapa diterima setiap kumpulan?`
+                        `${name} agihkan ${n1} ${item} sama rata kepada ${n2} kawan. Berapa seorang dapat?`,
+                        `${n1} ${item} diisi sama rata dalam ${n2} ${container}. Berapa isi setiap ${container}?`,
+                        `Cikgu edar ${n1} ${item} kepada ${n2} kumpulan. Berapa diterima setiap kumpulan?`
                     ]);
                     break;
             }
@@ -249,15 +248,15 @@
             for (let p = 0; p < totalPages; p++) {
                 
                 let pageHTML = `
-                <div class="a4-page bg-white p-6 sm:p-10 shadow-xl rounded-2xl print:shadow-none print:rounded-none">
+                <div class="a4-page bg-white p-4 sm:p-8 shadow-xl rounded-2xl print:shadow-none print:rounded-none">
                     <!-- HEADER -->
                     <div class="print-header flex-none border-b-2 border-gray-800 pb-2 mb-4">
-                        <h1 class="text-2xl font-extrabold text-center mb-2 uppercase tracking-wider text-gray-900">Lembaran Kerja Matematik</h1>
-                        <div class="flex flex-col sm:flex-row justify-between gap-2 text-sm font-bold text-gray-700">
+                        <h1 class="text-xl font-extrabold text-center mb-2 uppercase tracking-wider text-gray-900">Lembaran Kerja Matematik</h1>
+                        <div class="flex flex-col sm:flex-row justify-between gap-1 text-[0.8rem] font-bold text-gray-700">
                             <div class="flex items-end gap-1 w-full sm:w-1/2">
                                 <span>NAMA:</span><div class="border-b border-gray-500 flex-grow border-dashed"></div>
                             </div>
-                            <div class="flex flex-row justify-between w-full sm:w-1/2 gap-2">
+                            <div class="flex flex-row justify-between w-full sm:w-1/2 gap-1">
                                 <div class="flex items-end gap-1 w-1/2">
                                     <span>KELAS:</span><div class="border-b border-gray-500 flex-grow border-dashed"></div>
                                 </div>
@@ -278,31 +277,31 @@
                     const op = getRandomItem(ops);
                     const q = generateWordProblem(op);
 
-                    // Tambah class q-box, q-text, q-workspace, q-answer untuk kawalan CSS print
+                    // Susunan kotak soalan tanpa border kelabu pada ruangan jawapan (supaya jimat saiz height!)
                     pageHTML += `
-                        <div class="q-box h-full flex flex-col border-2 border-gray-300 p-4 rounded-xl">
+                        <div class="q-box h-full flex flex-col border border-gray-400 p-3 rounded-xl">
                             <!-- Teks Soalan -->
-                            <div class="flex gap-2 mb-2 items-start">
-                                <span class="bg-gray-900 text-white font-bold text-sm h-6 w-6 flex items-center justify-center rounded-full flex-shrink-0 mt-0.5">
+                            <div class="flex gap-2 mb-1 items-start">
+                                <span class="bg-gray-800 text-white font-bold text-[0.8rem] h-5 w-5 flex items-center justify-center rounded-full flex-shrink-0 mt-0.5">
                                     ${questionCounter}
                                 </span>
-                                <p class="q-text text-[0.95rem] leading-snug font-semibold text-gray-800">${q.text}</p>
+                                <p class="q-text text-[0.9rem] leading-snug font-semibold text-gray-800">${q.text}</p>
                             </div>
                             
-                            <!-- Ruang Jalan Kerja (Meresap baki ruang) -->
-                            <div class="q-workspace flex-grow border-2 border-dashed rounded-lg p-2 mb-2 flex items-center justify-center bg-gray-50/50 ${showAnswersMode ? 'border-emerald-400 bg-emerald-50' : 'border-gray-300'}">
+                            <!-- Ruang Jalan Kerja -->
+                            <div class="q-workspace flex-grow border border-dashed rounded-lg p-2 mb-1 flex items-center justify-center bg-gray-50/50 ${showAnswersMode ? 'border-emerald-400 bg-emerald-50' : 'border-gray-300'}">
                                 ${showAnswersMode 
-                                    ? `<div class="text-xl font-bold text-emerald-600">${q.equation}</div>`
+                                    ? `<div class="text-lg font-bold text-emerald-600">${q.equation}</div>`
                                     : ``
                                 }
                             </div>
                             
-                            <!-- Ruang Jawapan -->
-                            <div class="q-answer flex items-center gap-2 text-sm mt-auto bg-gray-100 p-2 px-3 rounded-lg border border-gray-200">
+                            <!-- Ruang Jawapan (Design diringkaskan) -->
+                            <div class="q-answer-container flex items-center gap-2 text-sm mt-auto px-1">
                                 <span class="font-bold text-gray-700">Jawapan:</span>
                                 ${showAnswersMode 
-                                    ? `<span class="font-black text-rose-600 underline">${q.answer}</span>`
-                                    : `<div class="border-b-2 border-gray-800 flex-grow border-dashed"></div>`
+                                    ? `<span class="font-black text-rose-600">${q.answer}</span>`
+                                    : `<div class="border-b border-gray-800 flex-grow border-solid"></div>`
                                 }
                             </div>
                         </div>
@@ -311,10 +310,6 @@
                 }
 
                 pageHTML += `
-                    </div>
-                    <!-- FOOTER -->
-                    <div class="flex-none print-only mt-2 text-center text-[10px] text-gray-500 font-medium">
-                        Penyelesaian Masalah | Latihan Pengukuhan Tahap 1
                     </div>
                 </div>`; 
 
