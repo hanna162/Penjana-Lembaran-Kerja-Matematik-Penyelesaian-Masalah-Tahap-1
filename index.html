@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penjana Lembaran Kerja (Ultimate Compact)</title>
+    <title>Penjana Lembaran Kerja Matematik (Penyelesaian Masalah)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
@@ -107,7 +107,7 @@
     <div class="no-print max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-md mb-8 border-t-4 border-indigo-500">
         <h1 class="text-2xl font-bold text-indigo-700 mb-6 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
-            Penjana Lembaran Kerja (Versi Ultimate Compact)
+            Penjana Lembaran Kerja Matematik (Penyelesaian Masalah)
         </h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -164,7 +164,7 @@
     </div>
 
     <script>
-        // Data soalan yang sama macam sebelum ini
+        // Data soalan
         const names = ["Ahmad", "Siti", "Ali", "Aisyah", "Muthu", "Mei", "Raju", "Farid", "Nurul", "Daniel", "Adam", "Mia"];
         const items = ["biji epal", "batang pensel", "biji guli", "buku", "keping biskut", "gula-gula", "biji oren", "pemadam", "mainan"];
         const containers = ["bakul", "kotak", "balang", "beg", "plastik"];
@@ -174,7 +174,6 @@
         const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
         const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-        // Teks paling pendek (supaya tidak jadi 3 baris kalau boleh)
         const generateWordProblem = (operation) => {
             const name = getRandomItem(names);
             const item = getRandomItem(items);
@@ -277,7 +276,6 @@
                     const op = getRandomItem(ops);
                     const q = generateWordProblem(op);
 
-                    // Susunan kotak soalan tanpa border kelabu pada ruangan jawapan (supaya jimat saiz height!)
                     pageHTML += `
                         <div class="q-box h-full flex flex-col border border-gray-400 p-3 rounded-xl">
                             <!-- Teks Soalan -->
@@ -296,7 +294,7 @@
                                 }
                             </div>
                             
-                            <!-- Ruang Jawapan (Design diringkaskan) -->
+                            <!-- Ruang Jawapan -->
                             <div class="q-answer-container flex items-center gap-2 text-sm mt-auto px-1">
                                 <span class="font-bold text-gray-700">Jawapan:</span>
                                 ${showAnswersMode 
