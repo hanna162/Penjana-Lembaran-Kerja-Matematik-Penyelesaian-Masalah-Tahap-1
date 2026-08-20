@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penjana Lembaran Kerja Matematik (Penyelesaian Masalah)</title>
+    <title>Penjana Lembaran Kerja Matematik (Dinamik)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
@@ -12,89 +12,48 @@
             background-color: #f3f4f6;
         }
 
-        /* --- KAWALAN CETAKAN ULTIMATE --- */
+        /* KAWALAN CETAKAN KETAT */
         @media print {
-            @page {
-                size: A4 portrait;
-                margin: 5mm; 
-            }
+            @page { size: A4 portrait; margin: 5mm; }
             body {
                 background-color: white !important;
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact; 
-                margin: 0 !important;
-                padding: 0 !important;
+                margin: 0 !important; padding: 0 !important;
                 zoom: 0.95; 
             }
-            .no-print {
-                display: none !important;
-            }
-            
+            .no-print { display: none !important; }
             .a4-page {
                 width: 100% !important;
                 page-break-after: always; 
                 page-break-inside: avoid;
-                margin: 0 !important;
-                padding: 0 !important;
-                border: none !important;
-                box-shadow: none !important;
-                display: flex !important;
-                flex-direction: column !important;
+                margin: 0 !important; padding: 0 !important;
+                border: none !important; box-shadow: none !important;
+                display: flex !important; flex-direction: column !important;
                 min-height: 270mm !important;
             }
-            .a4-page:last-child {
-                page-break-after: auto;
-            }
-
+            .a4-page:last-child { page-break-after: auto; }
             .print-header {
-                padding-bottom: 2px !important;
-                margin-bottom: 5px !important;
-                border-bottom-width: 2px !important;
+                padding-bottom: 2px !important; margin-bottom: 5px !important; border-bottom-width: 2px !important;
             }
-            .print-header h1 {
-                margin-bottom: 2px !important;
-                font-size: 1.1rem !important; 
-            }
-
+            .print-header h1 { margin-bottom: 2px !important; font-size: 1.1rem !important; }
             .question-grid {
-                flex-grow: 1 !important;
-                display: grid !important;
+                flex-grow: 1 !important; display: grid !important;
                 grid-template-columns: repeat(2, 1fr) !important;
                 grid-template-rows: repeat(3, 1fr) !important;
                 gap: 5px !important; 
             }
-
-            .q-box {
-                padding: 6px !important; 
-                border-width: 1px !important;
-            }
-            .q-text {
-                font-size: 0.8rem !important; 
-                line-height: 1.2 !important;
-                margin-bottom: 4px !important;
-            }
-            .q-workspace {
-                min-height: 50px !important; 
-                padding: 2px !important;
-                margin-bottom: 2px !important;
-            }
-            .q-answer-container {
-                padding: 0 !important;
-                margin-top: 0 !important;
-                background-color: transparent !important;
-                border: none !important;
-            }
+            .q-box { padding: 6px !important; border-width: 1px !important; }
+            .q-text { font-size: 0.8rem !important; line-height: 1.15 !important; margin-bottom: 2px !important; }
+            .q-workspace { min-height: 50px !important; padding: 2px !important; margin-bottom: 2px !important; }
+            .q-answer-container { padding: 0 !important; margin-top: 0 !important; background-color: transparent !important; border: none !important; }
         }
         
         .question-grid-screen {
-            display: grid;
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-            gap: 1.5rem;
+            display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem;
         }
         @media (min-width: 768px) {
-            .question-grid-screen {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+            .question-grid-screen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
     </style>
 </head>
@@ -104,7 +63,7 @@
     <div class="no-print max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-md mb-8 border-t-4 border-indigo-500">
         <h1 class="text-2xl font-bold text-indigo-700 mb-6 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
-            Penjana Lembaran Kerja Matematik (Penyelesaian Masalah)
+            Penjana Lembaran Kerja Matematik (Soalan Dinamik)
         </h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -155,105 +114,159 @@
         </div>
     </div>
 
-    <!-- BEKAS LEMBARAN -->
-    <div id="worksheet-wrapper" class="max-w-4xl mx-auto space-y-8">
-        <!-- Dijana oleh JS -->
-    </div>
+    <div id="worksheet-wrapper" class="max-w-4xl mx-auto space-y-8"></div>
 
     <script>
-        // VARIABLES GLOBAL 
+        // KOSA KATA AI (LENGKAP DENGAN PENJODOH BILANGAN & KONTEKS LOGIK)
+        const db = {
+            budak: ["Ali", "Ammar", "Daniel", "Raju", "Muthu", "Chong", "Siti", "Aisyah", "Mei Ling", "Kavitha", "Suzi", "Fatimah", "Farhan"],
+            dewasa: ["Cikgu Amin", "Puan Salmah", "Encik Lee", "Pak Abu", "Mak Minah", "Cikgu Wong", "Pekerja itu", "Tuan Haji"],
+            alatTulis: [
+                { nama: "pensel", unit: "batang" }, { nama: "buku cerita", unit: "buah" },
+                { nama: "pemadam", unit: "keping" }, { nama: "pembaris", unit: "batang" },
+                { nama: "krayon", unit: "batang" }, { nama: "buku latihan", unit: "buah" }
+            ],
+            makanan: [
+                { nama: "karipap", unit: "biji" }, { nama: "nasi lemak", unit: "bungkus" },
+                { nama: "kek", unit: "potong" }, { nama: "biskut", unit: "keping" },
+                { nama: "gula-gula", unit: "biji" }, { nama: "coklat", unit: "keping" }
+            ],
+            buah: [
+                { nama: "epal", unit: "biji" }, { nama: "rambutan", unit: "biji" },
+                { nama: "durian", unit: "biji" }, { nama: "mangga", unit: "biji" },
+                { nama: "tembikai", unit: "biji" }, { nama: "pisang", unit: "sikat" }
+            ],
+            haiwanTernak: [
+                { nama: "ayam", unit: "ekor", rumah: "reban" }, { nama: "kambing", unit: "ekor", rumah: "kandang" },
+                { nama: "itik", unit: "ekor", rumah: "kolam" }, { nama: "lembu", unit: "ekor", rumah: "padang" }
+            ],
+            kenderaan: [
+                { nama: "kereta", unit: "buah" }, { nama: "basikal", unit: "buah" },
+                { nama: "lori", unit: "buah" }, { nama: "motosikal", unit: "buah" }
+            ]
+        };
+
         let showAnswersMode = false;
-        let currentQuestionsData = []; // Menyimpan soalan semasa
+        let currentQuestionsData = []; 
 
-        const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-        const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+        const getRand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+        const getItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+        const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-        // Enjin Pembuat Corak Ayat (HANYA MENGGUNAKAN AYAT LOGIK ANDA - NOMBOR SAHAJA RAWAK)
+        // ENJIN PEMBUAT AYAT DINAMIK (AI LOGIC GENERATOR)
         const createWordProblem = (operation) => {
-            const patternIndex = getRandomInt(1, 10); // Pilih 1 daripada 10 ayat anda
+            const budak1 = getItem(db.budak);
+            let budak2 = getItem(db.budak);
+            while(budak1 === budak2) budak2 = getItem(db.budak);
+            const dewasa = getItem(db.dewasa);
             
+            const type = getRand(1, 5); // Pilih senario logik
             let n1, n2, answer, text, equation;
 
             if (operation === 'tambah') {
-                n1 = getRandomInt(11, 45); // Limit nombor tahap 1
-                n2 = getRandomInt(5, 35); 
-                answer = n1 + n2;
-                equation = `${n1} + ${n2} = ${answer}`;
-
-                switch(patternIndex) {
-                    case 1: text = `Ali ada ${n1} biji guli. Abu beri Ali ${n2} biji guli lagi. Berapakah jumlah guli Ali sekarang?`; break;
-                    case 2: text = `Di dalam bakul ada ${n1} biji epal merah dan ${n2} biji epal hijau. Kira jumlah semua epal di dalam bakul itu.`; break;
-                    case 3: text = `Aminah membeli ${n1} buah buku cerita pada hari Isnin. Dia membeli ${n2} buah buku lagi pada hari Selasa. Berapakah jumlah buku yang dibelinya?`; break;
-                    case 4: text = `Sebuah kedai ada ${n1} buah basikal. Kedai itu menerima ${n2} buah basikal baharu. Berapakah jumlah basikal di kedai itu sekarang?`; break;
-                    case 5: text = `Fatimah ada ${n1} keping pelekat. Kakaknya memberikan ${n2} keping pelekat lagi. Berapakah jumlah pelekat Fatimah semuanya?`; break;
-                    case 6: text = `Di atas padang ada ${n1} orang murid lelaki dan ${n2} orang murid perempuan. Berapakah jumlah murid di padang itu?`; break;
-                    case 7: text = `Sarah mengumpul ${n1} biji kerang. Adiknya mengumpul ${n2} biji kerang. Berapakah jumlah kerang yang mereka kumpul bersama?`; break;
-                    case 8: text = `Sebuah lori membawa ${n1} buah kotak. Sebuah lori lain membawa ${n2} buah kotak. Kira jumlah kotak yang dibawa oleh kedua-dua lori itu.`; break;
-                    case 9: text = `Pak Abu memetik ${n1} biji mangga pagi tadi. Petang ini dia memetik ${n2} biji mangga lagi. Berapakah jumlah mangga Pak Abu?`; break;
-                    case 10: text = `Kelas 2 Cerdik ada ${n1} orang murid. Kelas 2 Pintar pula ada ${n2} orang murid. Berapakah jumlah murid untuk kedua-dua kelas itu?`; break;
+                n1 = getRand(15, 60); n2 = getRand(10, 39); answer = n1 + n2; equation = `${n1} + ${n2} = ${answer}`;
+                
+                switch(type) {
+                    case 1: // Senario: Menerima barang (Alat Tulis/Makanan)
+                        let obj1 = getItem(db.alatTulis.concat(db.makanan));
+                        text = `${budak1} mempunyai ${n1} ${obj1.unit} ${obj1.nama}. Kawan baiknya, ${budak2} telah memberikan ${n2} ${obj1.unit} lagi kepadanya. Hitung jumlah ${obj1.nama} yang ${budak1} ada sekarang.`;
+                        break;
+                    case 2: // Senario: Mengumpul/Memetik hasil
+                        let buah = getItem(db.buah);
+                        text = `${dewasa} telah memetik ${n1} ${buah.unit} ${buah.nama} di kebun semalam. Hari ini, dia berjaya memetik ${n2} ${buah.unit} lagi. Berapakah jumlah keseluruhan ${buah.nama} yang telah dipetik?`;
+                        break;
+                    case 3: // Senario: Menggabung kenderaan / haiwan
+                        let haiwan = getItem(db.haiwanTernak);
+                        text = `Terdapat ${n1} ${haiwan.unit} ${haiwan.nama} peliharaan ${dewasa}. Dia kemudiannya telah membeli ${n2} ${haiwan.unit} ${haiwan.nama} baharu untuk diternak. Berapa banyak ${haiwan.nama} peliharaannya kini?`;
+                        break;
+                    case 4: // Senario: Membeli barang
+                        let obj4 = getItem(db.makanan);
+                        text = `${dewasa} membeli ${n1} ${obj4.unit} ${obj4.nama} pada waktu pagi untuk majlis. Pada waktu petang, dia menambah ${n2} ${obj4.unit} lagi. Berapakah jumlah ${obj4.nama} kesemuanya?`;
+                        break;
+                    case 5: // Senario: Murid dalam kelas
+                        text = `Tahun 2 Bijak terdiri daripada ${n1} orang murid. Tahun 2 Cemerlang pula mempunyai ${n2} orang murid. Kira jumlah murid bagi kedua-dua buah kelas tersebut.`;
+                        break;
                 }
             } 
             else if (operation === 'tolak') {
-                n1 = getRandomInt(30, 89); 
-                n2 = getRandomInt(5, n1 - 5); // Pastikan logik tolak (n1 mesti besar dari n2)
-                answer = n1 - n2;
-                equation = `${n1} - ${n2} = ${answer}`;
+                n1 = getRand(40, 99); n2 = getRand(10, n1 - 10); answer = n1 - n2; equation = `${n1} - ${n2} = ${answer}`;
 
-                switch(patternIndex) {
-                    case 1: text = `Ibu membeli ${n1} biji telur. ${n2} biji telur telah pecah. Berapakah telur yang masih elok?`; break;
-                    case 2: text = `Ravi ada ${n1} batang pensel. Dia memberikan ${n2} batang pensel kepada kawannya. Berapakah baki pensel Ravi?`; break;
-                    case 3: text = `Di dalam sebuah kotak ada ${n1} buah buku. Cikgu Siti mengeluarkan ${n2} buah buku. Berapakah buku yang tinggal di dalam kotak?`; break;
-                    case 4: text = `Sebuah kedai roti membakar ${n1} biji bun. ${n2} biji bun telah dijual. Berapakah bun yang belum dijual?`; break;
-                    case 5: text = `Amira ada ${n1} keping pemadam. Dia hilang ${n2} keping pemadam itu. Berapakah pemadam Amira yang tinggal?`; break;
-                    case 6: text = `Pak Cik Samad memetik ${n1} biji rambutan. Dia menjual ${n2} biji daripadanya. Berapakah baki rambutan Pak Cik Samad?`; break;
-                    case 7: text = `Di dalam sebuah kolam ada ${n1} ekor ikan. ${n2} ekor ikan telah mati. Berapakah ekor ikan yang masih hidup?`; break;
-                    case 8: text = `Sebuah bas membawa ${n1} orang penumpang. Apabila sampai di stesen, ${n2} orang penumpang turun. Berapakah penumpang yang tinggal di dalam bas?`; break;
-                    case 9: text = `Mei Ling ada ${n1} keping setem. Dia memberi adiknya ${n2} keping. Berapakah setem Mei Ling sekarang?`; break;
-                    case 10: text = `Sebuah pokok ada ${n1} biji pepaya. Malangnya, ${n2} biji telah dimakan burung. Berapakah pepaya yang masih elok di pokok?`; break;
+                switch(type) {
+                    case 1: // Senario: Rosak / Pecah / Hilang
+                        let obj1 = getItem(db.alatTulis);
+                        text = `${budak1} ada ${n1} ${obj1.unit} ${obj1.nama} di dalam begnya. Namun, ${n2} ${obj1.unit} daripadanya telah hilang di sekolah. Berapakah baki ${obj1.nama} yang tinggal?`;
+                        break;
+                    case 2: // Senario: Menjual barang
+                        let makanan = getItem(db.makanan);
+                        text = `${dewasa} telah menyediakan ${n1} ${makanan.unit} ${makanan.nama} untuk dijual. Menjelang tengah hari, ${n2} ${makanan.unit} telah selamat dijual. Berapakah ${makanan.nama} yang belum dijual?`;
+                        break;
+                    case 3: // Senario: Memberi kepada orang lain
+                        let buah = getItem(db.buah);
+                        text = `Pada asalnya, ${budak2} mengumpul sebanyak ${n1} ${buah.unit} ${buah.nama}. Dia telah mengagihkan ${n2} ${buah.unit} kepada jiran-jirannya. Berapakah baki yang ada pada ${budak2}?`;
+                        break;
+                    case 4: // Senario: Penumpang bas / lori
+                        text = `Sebuah bas persiaran sedang membawa ${n1} orang penumpang. Apabila tiba di stesen pertama, seramai ${n2} orang penumpang telah turun. Berapa orang yang masih berada di dalam bas?`;
+                        break;
+                    case 5: // Senario: Haiwan mati/dijual
+                        let hwn = getItem(db.haiwanTernak);
+                        text = `Pak Cik Badrul menternak ${n1} ${hwn.unit} ${hwn.nama} di dalam ${hwn.rumah}. Akibat wabak penyakit, ${n2} ${hwn.unit} daripadanya telah mati. Berapa ekor ${hwn.nama} yang masih hidup?`;
+                        break;
                 }
             }
             else if (operation === 'darab') {
-                n1 = getRandomInt(2, 9); 
-                n2 = getRandomInt(2, 12); 
-                answer = n1 * n2;
-                equation = `${n1} × ${n2} = ${answer}`;
+                n1 = getRand(3, 9); n2 = getRand(3, 10); answer = n1 * n2; equation = `${n1} × ${n2} = ${answer}`;
 
-                switch(patternIndex) {
-                    case 1: text = `Ada ${n1} buah kotak. Setiap kotak mengandungi ${n2} biji bola. Berapakah jumlah semua bola itu?`; break;
-                    case 2: text = `Setiap murid menerima ${n2} batang pensel warna. Jika ada ${n1} orang murid, berapakah jumlah pensel warna semuanya?`; break;
-                    case 3: text = `Ibu membeli ${n1} gugus anggur. Setiap gugus ada ${n2} biji anggur. Berapakah jumlah buah anggur yang ibu beli?`; break;
-                    case 4: text = `Di dalam sebuah kelas ada ${n1} baris meja. Setiap baris ada ${n2} buah meja. Berapakah jumlah meja di dalam kelas itu?`; break;
-                    case 5: text = `Sebuah motosikal ada 2 biji roda. Berapakah jumlah roda bagi ${n1} buah motosikal yang sama?`; equation = `${n1} × 2 = ${n1 * 2}`; answer = n1 * 2; break; // Kes khas sbb roda motosikal sentiasa 2
-                    case 6: text = `Setiap tingkat bangunan ada ${n2} buah bilik. Berapakah jumlah bilik jika bangunan itu ada ${n1} tingkat?`; break;
-                    case 7: text = `Kakak menyusun kuih ke dalam ${n1} buah piring. Setiap piring diletakkan ${n2} biji kuih. Berapakah jumlah kuih semuanya?`; break;
-                    case 8: text = `Sebuah kereta boleh dinaiki oleh 5 orang. Berapakah jumlah orang yang boleh menaiki ${n1} buah kereta yang sama?`; equation = `${n1} × 5 = ${n1 * 5}`; answer = n1 * 5; break; // Kes khas muatan kereta statik
-                    case 9: text = `Bapa membeli ${n1} kotak susu. Setiap kotak mengandungi ${n2} botol susu. Berapakah jumlah botol susu yang dibeli bapa?`; break;
-                    case 10: text = `Setiap hari Taufik menyimpan RM${n2}. Berapakah jumlah wang simpanan Taufik selepas ${n1} hari?`; break;
+                switch(type) {
+                    case 1: // Senario: Kotak dan Isinya
+                        let alat = getItem(db.alatTulis);
+                        text = `Sebuah kedai buku mempunyai ${n1} buah kotak stok. Di dalam setiap kotak tersebut terdapat ${n2} ${alat.unit} ${alat.nama}. Hitung jumlah keseluruhan ${alat.nama} di kedai itu.`;
+                        break;
+                    case 2: // Senario: Hadiah kepada sekumpulan orang
+                        let mkn = getItem(db.makanan);
+                        text = `${dewasa} ingin memberikan hadiah. Setiap murid akan menerima ${n1} ${mkn.unit} ${mkn.nama}. Jika terdapat ${n2} orang murid, berapakah jumlah ${mkn.nama} yang diperlukan?`;
+                        break;
+                    case 3: // Senario: Susunan dalam dewan/kelas
+                        text = `Di dalam sebuah dewan, pekerja menyusun kerusi kepada ${n1} baris panjang. Setiap baris disusun dengan tepat ${n2} buah kerusi. Kira jumlah kerusi di dalam dewan itu.`;
+                        break;
+                    case 4: // Senario: Kaki haiwan (Fakta logik! Kaki haiwan mesti betul)
+                        let haiwanKaki = getItem([{nama: "kucing", kaki: 4}, {nama: "lembu", kaki: 4}, {nama: "ayam", kaki: 2}, {nama: "itik", kaki: 2}]);
+                        n2 = haiwanKaki.kaki; // Tetapkan N2 mengikut fakta kaki
+                        answer = n1 * n2; equation = `${n1} × ${n2} = ${answer}`;
+                        text = `Seekor ${haiwanKaki.nama} normal mempunyai ${n2} batang kaki. Cuba kira berapakah jumlah kaki jika terdapat ${n1} ekor ${haiwanKaki.nama} di situ?`;
+                        break;
+                    case 5: // Senario: Wang simpanan harian
+                        text = `${budak1} menabung wang saku sebanyak RM${n1} ke dalam tabungnya setiap hari. Berapakah jumlah wang simpanan ${budak1} selepas tempoh ${n2} hari?`;
+                        break;
                 }
             }
             else if (operation === 'bahagi') {
-                n2 = getRandomInt(2, 9); 
-                answer = getRandomInt(3, 10); 
-                n1 = n2 * answer; // Logik sifir (supaya tidak berbaki)
-                equation = `${n1} ÷ ${n2} = ${answer}`;
+                n2 = getRand(2, 9); answer = getRand(3, 9); n1 = n2 * answer; equation = `${n1} ÷ ${n2} = ${answer}`;
 
-                switch(patternIndex) {
-                    case 1: text = `Cikgu ada ${n1} batang pembaris. Dia membahagikan pembaris itu sama rata kepada ${n2} orang murid. Berapakah pembaris yang diterima oleh setiap murid?`; break;
-                    case 2: text = `Ibu ada ${n1} biji biskut dan mahu memasukkannya ke dalam ${n2} buah balang secara sama banyak. Berapakah biskut di dalam setiap balang?`; break;
-                    case 3: text = `Ada ${n1} biji guli di dalam sebuah bekas. Guli itu dikongsi sama rata antara ${n2} orang kawan. Berapakah guli yang dapat setiap seorang?`; break;
-                    case 4: text = `Seorang peladang mahu memasukkan ${n1} biji oren ke dalam ${n2} buah bakul secara sama banyak. Berapakah oren di dalam setiap bakul?`; break;
-                    case 5: text = `Pak Cik Lim ada ${n1} ekor anak ayam. Dia membahagikan anak ayam itu ke dalam ${n2} buah reban secara sama rata. Berapakah anak ayam di dalam setiap reban?`; break;
-                    case 6: text = `Ada ${n1} buah buku yang perlu disusun secara sama banyak di atas ${n2} tingkat rak. Berapakah buah buku pada setiap tingkat rak?`; break;
-                    case 7: text = `Sebuah kilang mahu mengagihkan ${n1} buah kuiz kepada ${n2} buah sekolah secara sama rata. Berapakah kuiz yang diterima oleh setiap sekolah?`; break;
-                    case 8: text = `Sani ada ${n1} keping pelekat. Dia menampal pelekat itu sama banyak pada ${n2} buah muka surat buku log. Berapakah pelekat pada setiap muka surat?`; break;
-                    case 9: text = `Atuk ada ${n1} biji rambutan. Atuk memberikan rambutan itu sama banyak kepada ${n2} orang cucunya. Berapakah biji rambutan yang didapat oleh setiap cucu?`; break;
-                    case 10: text = `Kakak memotong sebiji kek kepada ${n1} potong. Kek itu dibahagikan sama rata kepada ${n2} orang tetangga. Berapakah potong kek yang diterima oleh setiap tetangga?`; break;
+                switch(type) {
+                    case 1: // Senario: Agih sama rata kepada rakan
+                        let buah2 = getItem(db.buah);
+                        text = `${budak2} membawa pulang ${n1} ${buah2.unit} ${buah2.nama}. Dia membahagikan kesemua buah itu secara sama rata kepada ${n2} orang rakan baiknya. Berapakah jumlah buah yang didapati oleh setiap rakannya?`;
+                        break;
+                    case 2: // Senario: Membungkus semula
+                        let biskut = getItem(db.makanan);
+                        text = `${dewasa} membakar sebanyak ${n1} ${biskut.unit} ${biskut.nama}. Dia mahu memasukkan semuanya secara sama banyak ke dalam ${n2} bekas plastik. Berapa ${biskut.nama} perlu diletak dalam setiap bekas?`;
+                        break;
+                    case 3: // Senario: Cikgu mengagihkan barang
+                        let brg = getItem(db.alatTulis);
+                        text = `Sekolah telah menyumbangkan ${n1} ${brg.unit} ${brg.nama}. ${dewasa} mengagihkannya secara adil kepada ${n2} kelas yang berbeza. Berapa banyak ${brg.nama} yang akan diterima oleh setiap kelas?`;
+                        break;
+                    case 4: // Senario: Menyusun buku di rak
+                        text = `Di perpustakaan, terdapat ${n1} buah buku cerita baharu. Pengawas pusat sumber perlu menyusunnya sama rata pada ${n2} tingkat rak buku. Berapa buah buku yang akan berada pada setiap tingkat?`;
+                        break;
+                    case 5: // Senario: Haiwan ke dalam kandang
+                        let hwn = getItem(db.haiwanTernak);
+                        text = `Pihak ladang mempunyai ${n1} ekor ${hwn.nama}. Mereka memisahkan ternakan itu secara purata ke dalam ${n2} buah ${hwn.rumah}. Hitung bilangan ${hwn.nama} di dalam sebuah ${hwn.rumah}.`;
+                        break;
                 }
             }
             return { text, equation, answer };
         };
 
-        // FUNGSI JANA SOALAN KE DALAM MEMORI
         function generateNewQuestions() {
             const ops = [];
             if(document.getElementById('op-tambah').checked) ops.push('tambah');
@@ -268,32 +281,25 @@
             }
 
             const totalQuestions = parseInt(document.getElementById('num-questions').value);
-            
             currentQuestionsData = [];
 
             for (let i = 0; i < totalQuestions; i++) {
-                const op = getRandomItem(ops);
+                const op = getItem(ops);
                 currentQuestionsData.push(createWordProblem(op));
             }
-
             renderWorksheet();
         }
 
-        // FUNGSI LUKIS HTML KE SKRIN (Membaca Data Semasa)
         function renderWorksheet() {
             const qsPerPage = 6; 
             const totalPages = Math.ceil(currentQuestionsData.length / qsPerPage);
-            
             const wrapper = document.getElementById('worksheet-wrapper');
             wrapper.innerHTML = ''; 
-
             let questionCounter = 1;
 
             for (let p = 0; p < totalPages; p++) {
-                
                 let pageHTML = `
                 <div class="a4-page bg-white p-4 sm:p-8 shadow-xl rounded-2xl print:shadow-none print:rounded-none">
-                    <!-- HEADER -->
                     <div class="print-header flex-none border-b-2 border-gray-800 pb-2 mb-4">
                         <h1 class="text-xl font-extrabold text-center mb-2 uppercase tracking-wider text-gray-900">Lembaran Kerja Matematik</h1>
                         <div class="flex flex-col sm:flex-row justify-between gap-1 text-[0.8rem] font-bold text-gray-700">
@@ -301,65 +307,40 @@
                                 <span>NAMA:</span><div class="border-b border-gray-500 flex-grow border-dashed"></div>
                             </div>
                             <div class="flex flex-row justify-between w-full sm:w-1/2 gap-1">
-                                <div class="flex items-end gap-1 w-1/2">
-                                    <span>KELAS:</span><div class="border-b border-gray-500 flex-grow border-dashed"></div>
-                                </div>
-                                <div class="flex items-end gap-1 w-1/2">
-                                    <span>TARIKH:</span><div class="border-b border-gray-500 flex-grow border-dashed"></div>
-                                </div>
+                                <div class="flex items-end gap-1 w-1/2"><span>KELAS:</span><div class="border-b border-gray-500 flex-grow border-dashed"></div></div>
+                                <div class="flex items-end gap-1 w-1/2"><span>TARIKH:</span><div class="border-b border-gray-500 flex-grow border-dashed"></div></div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- GRID SOALAN -->
                     <div class="question-grid question-grid-screen">
                 `;
 
                 for (let i = 0; i < qsPerPage; i++) {
                     if (questionCounter > currentQuestionsData.length) break;
-
                     const q = currentQuestionsData[questionCounter - 1];
 
                     pageHTML += `
                         <div class="q-box h-full flex flex-col border border-gray-400 p-3 rounded-xl">
-                            <!-- Teks Soalan -->
                             <div class="flex gap-2 mb-1 items-start">
-                                <span class="bg-gray-800 text-white font-bold text-[0.8rem] h-5 w-5 flex items-center justify-center rounded-full flex-shrink-0 mt-0.5">
-                                    ${questionCounter}
-                                </span>
-                                <p class="q-text text-[0.85rem] leading-snug font-semibold text-gray-800">${q.text}</p>
+                                <span class="bg-gray-800 text-white font-bold text-[0.8rem] h-5 w-5 flex items-center justify-center rounded-full flex-shrink-0 mt-0.5">${questionCounter}</span>
+                                <p class="q-text text-[0.88rem] leading-snug font-semibold text-gray-800 text-justify pr-1">${q.text}</p>
                             </div>
-                            
-                            <!-- Ruang Jalan Kerja -->
                             <div class="q-workspace flex-grow border border-dashed rounded-lg p-2 mb-1 flex items-center justify-center bg-gray-50/50 ${showAnswersMode ? 'border-emerald-400 bg-emerald-50' : 'border-gray-300'}">
-                                ${showAnswersMode 
-                                    ? `<div class="text-lg font-bold text-emerald-600">${q.equation}</div>`
-                                    : ``
-                                }
+                                ${showAnswersMode ? `<div class="text-lg font-bold text-emerald-600">${q.equation}</div>` : ``}
                             </div>
-                            
-                            <!-- Ruang Jawapan -->
                             <div class="q-answer-container flex items-center gap-2 text-sm mt-auto px-1">
                                 <span class="font-bold text-gray-700">Jawapan:</span>
-                                ${showAnswersMode 
-                                    ? `<span class="font-black text-rose-600">${q.answer}</span>`
-                                    : `<div class="border-b border-gray-800 flex-grow border-solid"></div>`
-                                }
+                                ${showAnswersMode ? `<span class="font-black text-rose-600">${q.answer}</span>` : `<div class="border-b border-gray-800 flex-grow border-solid"></div>`}
                             </div>
                         </div>
                     `;
                     questionCounter++;
                 }
-
-                pageHTML += `
-                    </div>
-                </div>`; 
-
+                pageHTML += `</div></div>`; 
                 wrapper.innerHTML += pageHTML;
             }
         }
 
-        // FUNGSI PAPAR JAWAPAN
         function toggleAnswers() {
             showAnswersMode = !showAnswersMode;
             const btn = document.getElementById('btn-jawapan');
@@ -368,17 +349,13 @@
             if (showAnswersMode) {
                 text.innerText = "Tutup Jawapan";
                 btn.classList.replace('bg-sky-500', 'bg-rose-500');
-                btn.classList.replace('hover:bg-sky-600', 'hover:bg-rose-600');
             } else {
                 text.innerText = "Paparan Jawapan";
                 btn.classList.replace('bg-rose-500', 'bg-sky-500');
-                btn.classList.replace('hover:bg-rose-600', 'hover:bg-sky-600');
             }
-            
             renderWorksheet();
         }
 
-        // Buka app, jana soalan pertama kali
         window.onload = generateNewQuestions;
     </script>
 </body>
