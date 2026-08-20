@@ -16,7 +16,7 @@
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 5mm; /* Margin paling minimum (5mm) */
+                margin: 5mm; 
             }
             body {
                 background-color: white !important;
@@ -24,7 +24,7 @@
                 print-color-adjust: exact; 
                 margin: 0 !important;
                 padding: 0 !important;
-                zoom: 0.95; /* KUNCI UTAMA: Kecilkan dokumen 5% supaya gerenti muat! */
+                zoom: 0.95; 
             }
             .no-print {
                 display: none !important;
@@ -32,7 +32,6 @@
             
             .a4-page {
                 width: 100% !important;
-                /* Biarkan browser tentukan height secara semula jadi, tetapi break dengan betul */
                 page-break-after: always; 
                 page-break-inside: avoid;
                 margin: 0 !important;
@@ -41,7 +40,7 @@
                 box-shadow: none !important;
                 display: flex !important;
                 flex-direction: column !important;
-                min-height: 270mm !important; /* Paksa minimum height */
+                min-height: 270mm !important;
             }
             .a4-page:last-child {
                 page-break-after: auto;
@@ -54,7 +53,7 @@
             }
             .print-header h1 {
                 margin-bottom: 2px !important;
-                font-size: 1.1rem !important; /* Tajuk lebih kecil */
+                font-size: 1.1rem !important; 
             }
 
             .question-grid {
@@ -62,15 +61,15 @@
                 display: grid !important;
                 grid-template-columns: repeat(2, 1fr) !important;
                 grid-template-rows: repeat(3, 1fr) !important;
-                gap: 5px !important; /* Gap sangat, sangat kecil */
+                gap: 5px !important; 
             }
 
             .q-box {
-                padding: 6px !important; /* Padding minimum */
+                padding: 6px !important; 
                 border-width: 1px !important;
             }
             .q-text {
-                font-size: 0.8rem !important; /* Teks dikecilkan */
+                font-size: 0.8rem !important; 
                 line-height: 1.15 !important;
                 margin-bottom: 2px !important;
             }
@@ -79,7 +78,6 @@
                 padding: 2px !important;
                 margin-bottom: 2px !important;
             }
-            /* Jawapan dibuang background supaya jimat 20px ketinggian */
             .q-answer-container {
                 padding: 0 !important;
                 margin-top: 0 !important;
@@ -88,7 +86,6 @@
             }
         }
         
-        /* Paparan skrin (bukan print) */
         .question-grid-screen {
             display: grid;
             grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -115,19 +112,19 @@
                 <h2 class="font-semibold mb-3 text-indigo-800">1. Pilih Operasi:</h2>
                 <div class="grid grid-cols-2 gap-3">
                     <label class="flex items-center gap-2 p-3 rounded-lg border bg-white cursor-pointer hover:bg-gray-50 has-[:checked]:bg-indigo-600 has-[:checked]:text-white">
-                        <input type="checkbox" id="op-tambah" class="w-4 h-4" checked onchange="generateWorksheet()">
+                        <input type="checkbox" id="op-tambah" class="w-4 h-4" checked onchange="generateNewQuestions()">
                         <span class="font-medium">Tambah</span>
                     </label>
                     <label class="flex items-center gap-2 p-3 rounded-lg border bg-white cursor-pointer hover:bg-gray-50 has-[:checked]:bg-indigo-600 has-[:checked]:text-white">
-                        <input type="checkbox" id="op-tolak" class="w-4 h-4" checked onchange="generateWorksheet()">
+                        <input type="checkbox" id="op-tolak" class="w-4 h-4" checked onchange="generateNewQuestions()">
                         <span class="font-medium">Tolak</span>
                     </label>
                     <label class="flex items-center gap-2 p-3 rounded-lg border bg-white cursor-pointer hover:bg-gray-50 has-[:checked]:bg-indigo-600 has-[:checked]:text-white">
-                        <input type="checkbox" id="op-darab" class="w-4 h-4" checked onchange="generateWorksheet()">
+                        <input type="checkbox" id="op-darab" class="w-4 h-4" checked onchange="generateNewQuestions()">
                         <span class="font-medium">Darab</span>
                     </label>
                     <label class="flex items-center gap-2 p-3 rounded-lg border bg-white cursor-pointer hover:bg-gray-50 has-[:checked]:bg-indigo-600 has-[:checked]:text-white">
-                        <input type="checkbox" id="op-bahagi" class="w-4 h-4" checked onchange="generateWorksheet()">
+                        <input type="checkbox" id="op-bahagi" class="w-4 h-4" checked onchange="generateNewQuestions()">
                         <span class="font-medium">Bahagi</span>
                     </label>
                 </div>
@@ -136,7 +133,7 @@
             <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 flex flex-col justify-center gap-4">
                 <div class="flex items-center gap-3">
                     <h2 class="font-semibold text-indigo-800 whitespace-nowrap">2. Susunan Cetakan:</h2>
-                    <select id="num-questions" class="border-gray-300 rounded-lg p-2 font-medium bg-white w-full" onchange="generateWorksheet()">
+                    <select id="num-questions" class="border-gray-300 rounded-lg p-2 font-medium bg-white w-full" onchange="generateNewQuestions()">
                         <option value="6" selected>6 Soalan (1 Muka Surat)</option>
                         <option value="12">12 Soalan (2 Muka Surat)</option>
                         <option value="18">18 Soalan (3 Muka Surat)</option>
@@ -144,7 +141,7 @@
                 </div>
 
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-2 mt-2">
-                    <button onclick="generateWorksheet()" class="bg-emerald-500 hover:bg-emerald-600 text-white py-2 px-3 rounded-lg font-bold flex items-center justify-center gap-2 lg:col-span-1 col-span-2 shadow">
+                    <button onclick="generateNewQuestions()" class="bg-emerald-500 hover:bg-emerald-600 text-white py-2 px-3 rounded-lg font-bold flex items-center justify-center gap-2 lg:col-span-1 col-span-2 shadow">
                         Jana Semula
                     </button>
                     <button id="btn-jawapan" onclick="toggleAnswers()" class="bg-sky-500 hover:bg-sky-600 text-white py-2 px-3 rounded-lg font-bold flex items-center justify-center gap-2 shadow">
@@ -164,65 +161,116 @@
     </div>
 
     <script>
-        // Data soalan
-        const names = ["Ahmad", "Siti", "Ali", "Aisyah", "Muthu", "Mei", "Raju", "Farid", "Nurul", "Daniel", "Adam", "Mia"];
-        const items = ["biji epal", "batang pensel", "biji guli", "buku", "keping biskut", "gula-gula", "biji oren", "pemadam", "mainan"];
-        const containers = ["bakul", "kotak", "balang", "beg", "plastik"];
+        // Data Kosa Kata Dinamik
+        const names = ["Ali", "Abu", "Aminah", "Fatimah", "Sarah", "Mei Ling", "Ravi", "Siti", "Amira", "Sani", "Daniel", "Aina", "Muthu", "Chong", "Suzi"];
+        const fruits = ["epal", "mangga", "rambutan", "anggur", "oren", "manggis", "betik"];
+        const items = ["guli", "buku cerita", "basikal", "pelekat", "kerang", "kotak", "pemadam", "setem", "pensel warna", "pembaris", "mainan", "gula-gula"];
+        const containers = ["bakul", "kotak", "balang", "beg", "bekas", "plastik"];
+        const vehicles = ["kereta", "bas", "van", "motosikal"];
 
+        // VARIABLES GLOBAL UTAMA (QA FIX)
         let showAnswersMode = false;
+        let currentQuestionsData = []; // Menyimpan soalan semasa supaya tak berubah bila papar jawapan
 
         const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
         const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-        const generateWordProblem = (operation) => {
-            const name = getRandomItem(names);
+        // Enjin Pembuat Corak Ayat
+        const createWordProblem = (operation) => {
+            const name1 = getRandomItem(names);
+            let name2 = getRandomItem(names);
+            while(name1 === name2) name2 = getRandomItem(names); 
+
             const item = getRandomItem(items);
+            const fruit = getRandomItem(fruits);
             const container = getRandomItem(containers);
+            const vehicle = getRandomItem(vehicles);
+            
+            const patternIndex = getRandomInt(1, 10); 
             
             let n1, n2, answer, text, equation;
 
-            switch (operation) {
-                case 'tambah':
-                    n1 = getRandomInt(15, 80); n2 = getRandomInt(10, 40); answer = n1 + n2;
-                    equation = `${n1} + ${n2} = ${answer}`;
-                    text = getRandomItem([
-                        `${name} ada ${n1} ${item}. Ibu beri ${n2} ${item} lagi. Berapa jumlah sekarang?`,
-                        `Ada ${n1} ${item} dalam beg A dan ${n2} ${item} dalam beg B. Kira jumlahnya.`,
-                        `${name} beli ${n1} ${item}. Kemudian beli ${n2} ${item} lagi. Berapa banyak dikumpul?`
-                    ]);
-                    break;
-                case 'tolak':
-                    n1 = getRandomInt(40, 95); n2 = getRandomInt(10, n1 - 10); answer = n1 - n2;
-                    equation = `${n1} - ${n2} = ${answer}`;
-                    text = getRandomItem([
-                        `${name} ada ${n1} ${item}. Diberi ${n2} ${item} kepada kawan. Berapa baki tinggal?`,
-                        `Kedai ada ${n1} ${item}. Dijual ${n2} ${item}. Berapa banyak yang belum dijual?`,
-                        `Dari ${n1} ${item}, sebanyak ${n2} rosak. Berapa yang elok?`
-                    ]);
-                    break;
-                case 'darab':
-                    n1 = getRandomInt(2, 9); n2 = getRandomInt(2, 9); answer = n1 * n2;
-                    equation = `${n1} × ${n2} = ${answer}`;
-                    text = getRandomItem([
-                        `${name} beli ${n1} kotak. Setiap kotak ada ${n2} ${item}. Kira jumlahnya?`,
-                        `Ada ${n1} meja. Atas setiap meja ada ${n2} ${item}. Kira jumlahnya.`,
-                        `Guru susun ${n1} baris. Setiap baris ada ${n2} kerusi. Berapa jumlah kerusi?`
-                    ]);
-                    break;
-                case 'bahagi':
-                    n2 = getRandomInt(2, 9); answer = getRandomInt(3, 9); n1 = n2 * answer;
-                    equation = `${n1} ÷ ${n2} = ${answer}`;
-                    text = getRandomItem([
-                        `${name} agihkan ${n1} ${item} sama rata kepada ${n2} kawan. Berapa seorang dapat?`,
-                        `${n1} ${item} diisi sama rata dalam ${n2} ${container}. Berapa isi setiap ${container}?`,
-                        `Cikgu edar ${n1} ${item} kepada ${n2} kumpulan. Berapa diterima setiap kumpulan?`
-                    ]);
-                    break;
+            if (operation === 'tambah') {
+                n1 = getRandomInt(11, 60); 
+                n2 = getRandomInt(10, 45); 
+                answer = n1 + n2;
+                equation = `${n1} + ${n2} = ${answer}`;
+
+                switch(patternIndex) {
+                    case 1: text = `${name1} ada ${n1} biji ${item}. ${name2} beri ${name1} ${n2} biji ${item} lagi. Berapakah jumlah ${item} ${name1} sekarang?`; break;
+                    case 2: text = `Di dalam ${container} ada ${n1} biji ${fruit} merah dan ${n2} biji ${fruit} hijau. Kira jumlah semua ${fruit} di dalam ${container} itu.`; break;
+                    case 3: text = `${name1} membeli ${n1} ${item} pada hari Isnin. Dia membeli ${n2} ${item} lagi pada hari Selasa. Berapakah jumlah ${item} yang dibelinya?`; break;
+                    case 4: text = `Sebuah kedai ada ${n1} buah ${vehicle}. Kedai itu menerima ${n2} buah ${vehicle} baharu. Berapakah jumlah ${vehicle} di kedai itu sekarang?`; break;
+                    case 5: text = `${name1} ada ${n1} keping ${item}. Kakaknya memberikan ${n2} keping ${item} lagi. Berapakah jumlah ${item} ${name1} semuanya?`; break;
+                    case 6: text = `Di atas padang ada ${n1} orang murid lelaki dan ${n2} orang murid perempuan. Berapakah jumlah murid di padang itu?`; break;
+                    case 7: text = `${name1} mengumpul ${n1} biji kerang. Adiknya mengumpul ${n2} biji kerang. Berapakah jumlah kerang yang mereka kumpul bersama?`; break;
+                    case 8: text = `Sebuah lori membawa ${n1} buah kotak. Sebuah lori lain membawa ${n2} buah kotak. Kira jumlah kotak yang dibawa oleh kedua-dua lori itu.`; break;
+                    case 9: text = `Pak Abu memetik ${n1} biji ${fruit} pagi tadi. Petang ini dia memetik ${n2} biji ${fruit} lagi. Berapakah jumlah ${fruit} Pak Abu?`; break;
+                    case 10: text = `Kelas 2 Cerdik ada ${n1} orang murid. Kelas 2 Pintar pula ada ${n2} orang murid. Berapakah jumlah murid untuk kedua-dua kelas itu?`; break;
+                }
+            } 
+            else if (operation === 'tolak') {
+                n1 = getRandomInt(40, 99); 
+                n2 = getRandomInt(10, n1 - 10); 
+                answer = n1 - n2;
+                equation = `${n1} - ${n2} = ${answer}`;
+
+                switch(patternIndex) {
+                    case 1: text = `Ibu membeli ${n1} biji telur. ${n2} biji telur telah pecah. Berapakah telur yang masih elok?`; break;
+                    case 2: text = `${name1} ada ${n1} batang pensel. Dia memberikan ${n2} batang pensel kepada kawannya. Berapakah baki pensel ${name1}?`; break;
+                    case 3: text = `Di dalam sebuah kotak ada ${n1} buah buku. Cikgu mengeluarkan ${n2} buah buku. Berapakah buku yang tinggal di dalam kotak?`; break;
+                    case 4: text = `Sebuah kedai roti membakar ${n1} biji bun. ${n2} biji bun telah dijual. Berapakah bun yang belum dijual?`; break;
+                    case 5: text = `${name1} ada ${n1} keping pemadam. Dia hilang ${n2} keping pemadam itu. Berapakah pemadam ${name1} yang tinggal?`; break;
+                    case 6: text = `Pak Cik memetik ${n1} biji ${fruit}. Dia menjual ${n2} biji daripadanya. Berapakah baki ${fruit} Pak Cik?`; break;
+                    case 7: text = `Di dalam sebuah kolam ada ${n1} ekor ikan. ${n2} ekor ikan telah mati. Berapakah ekor ikan yang masih hidup?`; break;
+                    case 8: text = `Sebuah bas membawa ${n1} orang penumpang. Apabila sampai di stesen, ${n2} orang penumpang turun. Berapakah penumpang yang tinggal di dalam bas?`; break;
+                    case 9: text = `${name1} ada ${n1} keping setem. Dia memberi adiknya ${n2} keping. Berapakah setem ${name1} sekarang?`; break;
+                    case 10: text = `Sebuah pokok ada ${n1} biji ${fruit}. Malangnya, ${n2} biji telah dimakan burung. Berapakah ${fruit} yang masih elok di pokok?`; break;
+                }
+            }
+            else if (operation === 'darab') {
+                n1 = getRandomInt(3, 9); 
+                n2 = getRandomInt(3, 12); 
+                answer = n1 * n2;
+                equation = `${n1} × ${n2} = ${answer}`;
+
+                switch(patternIndex) {
+                    case 1: text = `Ada ${n1} buah ${container}. Setiap ${container} mengandungi ${n2} biji bola. Berapakah jumlah semua bola itu?`; break;
+                    case 2: text = `Setiap murid menerima ${n2} batang pensel warna. Jika ada ${n1} orang murid, berapakah jumlah pensel warna semuanya?`; break;
+                    case 3: text = `Ibu membeli ${n1} gugus anggur. Setiap gugus ada ${n2} biji anggur. Berapakah jumlah buah anggur yang ibu beli?`; break;
+                    case 4: text = `Di dalam sebuah kelas ada ${n1} baris meja. Setiap baris ada ${n2} buah meja. Berapakah jumlah meja di dalam kelas itu?`; break;
+                    case 5: text = `Sebuah basikal ada 2 biji roda. Berapakah jumlah roda bagi ${n1} buah basikal yang sama?`; equation = `${n1} × 2 = ${n1 * 2}`; answer = n1 * 2; break;
+                    case 6: text = `Setiap tingkat bangunan ada ${n2} buah bilik. Berapakah jumlah bilik jika bangunan itu ada ${n1} tingkat?`; break;
+                    case 7: text = `Kakak menyusun kuih ke dalam ${n1} buah piring. Setiap piring diletakkan ${n2} biji kuih. Berapakah jumlah kuih semuanya?`; break;
+                    case 8: text = `Sebuah ${vehicle} boleh dinaiki oleh ${n2} orang. Berapakah jumlah orang yang boleh menaiki ${n1} buah ${vehicle} yang sama?`; break;
+                    case 9: text = `Bapa membeli ${n1} kotak susu. Setiap kotak mengandungi ${n2} botol susu. Berapakah jumlah botol susu yang dibeli bapa?`; break;
+                    case 10: text = `Setiap hari ${name1} menyimpan RM${n2}. Berapakah jumlah wang simpanan ${name1} selepas ${n1} hari?`; break;
+                }
+            }
+            else if (operation === 'bahagi') {
+                n2 = getRandomInt(2, 9); 
+                answer = getRandomInt(3, 12); 
+                n1 = n2 * answer;
+                equation = `${n1} ÷ ${n2} = ${answer}`;
+
+                switch(patternIndex) {
+                    case 1: text = `Cikgu ada ${n1} batang pembaris. Dia membahagikan pembaris itu sama rata kepada ${n2} orang murid. Berapakah pembaris yang diterima oleh setiap murid?`; break;
+                    case 2: text = `Ibu ada ${n1} keping biskut dan mahu memasukkannya ke dalam ${n2} buah balang secara sama banyak. Berapakah biskut di dalam setiap balang?`; break;
+                    case 3: text = `Ada ${n1} biji guli di dalam sebuah bekas. Guli itu dikongsi sama rata antara ${n2} orang kawan. Berapakah guli yang dapat setiap seorang?`; break;
+                    case 4: text = `Seorang peladang mahu memasukkan ${n1} biji oren ke dalam ${n2} buah bakul secara sama banyak. Berapakah oren di dalam setiap bakul?`; break;
+                    case 5: text = `Pak Cik ada ${n1} ekor anak ayam. Dia membahagikan anak ayam itu ke dalam ${n2} buah reban secara sama rata. Berapakah anak ayam di dalam setiap reban?`; break;
+                    case 6: text = `Ada ${n1} buah buku yang perlu disusun secara sama banyak di atas ${n2} tingkat rak. Berapakah buah buku pada setiap tingkat rak?`; break;
+                    case 7: text = `Sebuah kilang mahu mengagihkan ${n1} buah kerusi kepada ${n2} buah sekolah secara sama rata. Berapakah kerusi yang diterima oleh setiap sekolah?`; break;
+                    case 8: text = `${name1} ada ${n1} keping pelekat. Dia menampal pelekat itu sama banyak pada ${n2} buah muka surat buku log. Berapakah pelekat pada setiap muka surat?`; break;
+                    case 9: text = `Atuk ada ${n1} biji rambutan. Atuk memberikan rambutan itu sama banyak kepada ${n2} orang cucunya. Berapakah biji rambutan yang didapat oleh setiap cucu?`; break;
+                    case 10: text = `Kakak memotong sebiji kek kepada ${n1} potong. Kek itu dibahagikan sama rata kepada ${n2} orang tetangga. Berapakah potong kek yang diterima oleh setiap tetangga?`; break;
+                }
             }
             return { text, equation, answer };
         };
 
-        function generateWorksheet() {
+        // FUNGSI 1: JANA DATA SAHAJA
+        function generateNewQuestions() {
             const ops = [];
             if(document.getElementById('op-tambah').checked) ops.push('tambah');
             if(document.getElementById('op-tolak').checked) ops.push('tolak');
@@ -236,8 +284,24 @@
             }
 
             const totalQuestions = parseInt(document.getElementById('num-questions').value);
+            
+            // Kosongkan array lama
+            currentQuestionsData = [];
+
+            // Hasilkan dan simpan soalan baru dalam memori
+            for (let i = 0; i < totalQuestions; i++) {
+                const op = getRandomItem(ops);
+                currentQuestionsData.push(createWordProblem(op));
+            }
+
+            // Selepas data dijana, barulah panggil fungsi render lukis ke skrin
+            renderWorksheet();
+        }
+
+        // FUNGSI 2: LUKIS HTML KE SKRIN BERDASARKAN DATA (Tiada soalan baru dijana di sini)
+        function renderWorksheet() {
             const qsPerPage = 6; 
-            const totalPages = Math.ceil(totalQuestions / qsPerPage);
+            const totalPages = Math.ceil(currentQuestionsData.length / qsPerPage);
             
             const wrapper = document.getElementById('worksheet-wrapper');
             wrapper.innerHTML = ''; 
@@ -270,11 +334,11 @@
                     <div class="question-grid question-grid-screen">
                 `;
 
+                // Loop membaca memori data (bukan menjana)
                 for (let i = 0; i < qsPerPage; i++) {
-                    if (questionCounter > totalQuestions) break;
+                    if (questionCounter > currentQuestionsData.length) break;
 
-                    const op = getRandomItem(ops);
-                    const q = generateWordProblem(op);
+                    const q = currentQuestionsData[questionCounter - 1];
 
                     pageHTML += `
                         <div class="q-box h-full flex flex-col border border-gray-400 p-3 rounded-xl">
@@ -315,6 +379,7 @@
             }
         }
 
+        // FUNGSI 3: TOGGLE BUTANG JAWAPAN SAHAJA (Tak ganggu fungsi menjana)
         function toggleAnswers() {
             showAnswersMode = !showAnswersMode;
             const btn = document.getElementById('btn-jawapan');
@@ -329,10 +394,13 @@
                 btn.classList.replace('bg-rose-500', 'bg-sky-500');
                 btn.classList.replace('hover:bg-rose-600', 'hover:bg-sky-600');
             }
-            generateWorksheet();
+            
+            // Panggil fungsi lukis SAHAJA (soalan kekal)
+            renderWorksheet();
         }
 
-        window.onload = generateWorksheet;
+        // Pada awal pembukaan web, jana soalan pertama kali
+        window.onload = generateNewQuestions;
     </script>
 </body>
 </html>
